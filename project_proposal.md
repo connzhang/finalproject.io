@@ -38,7 +38,7 @@ health and environmental health.
 Source:
 <https://www.mass.gov/guides/population-health-information-tool-phit-data-directory>
 
-## Planned analyses, visualizaitons, coding challenges
+## Planned analyses, visualizations, coding challenges
 
 This project will look at hospitalization and substance abuse treatment
 demographics over time in the state of Massachusetts. For example,

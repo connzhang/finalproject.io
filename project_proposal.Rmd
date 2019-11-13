@@ -32,7 +32,7 @@ Source: https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-
 ## Planned analyses, visualizations, coding challenges
 This project will look at accidental deaths and drug use  demographics over time in the state of Connecticut. For example, differences in gender, race, and age will be assessed. Visualizations may includes maps of drug use and death across different regions of the state or box plots of death by drug type. 
 
-Anticipated coding challenges could include making external generalizations and assumptions from our analyses to a national level, since this dataset may only capture a very specific population of individuals who are hospitalized and seeking treatment.
+Anticipated coding challenges could include making external generalizations and assumptions from our analyses to a national level, since this dataset may only capture a very specific population of individuals who have passed away to drug use. Tidying the data will also be an expected challenge. 
 
 ## Timeline 
 Week 0 (Nov 11 - 15):

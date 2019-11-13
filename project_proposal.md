@@ -10,16 +10,15 @@ Project Proposal
 
 ## Project Title (tentative)
 
-Assessment of Drug Use and Treatment in State of Massachusetts
+Assessment of Drug Use and Mortality in Connecticut
 
 ## Motivation for project
 
-The opioid crisis is an ongoing public health issue on a national level,
-and in the state of Massachusetts in particular. From our own research
-we have seen that there has been a dramatic increase in opioid related
-deaths in this state that is well above the national average.
-
-Source: <https://chapter55.digital.mass.gov/>
+Accidental drug-related deaths are an ongoing public health concern on a
+national level, and in the state of Connecticut in particular. Our
+motivation for this project is to analyze and report on local
+geogographic and demographic trends related to drug overdose deaths in
+recent years.
 
 ## Intended final products
 
@@ -28,32 +27,30 @@ interactive visualization page.
 
 ## Anticipated Data Sources
 
-Mass.gov PHIT (Population Health Information Tool) catalog. This is a
-data portal for Massachusetts health data that allows researchers to
-explore issues, analyze specific communities, and compare health
-measures. Potential data topics we intend to include alongside the
-substance abuse and treatment data include: social determinants of
-health and environmental health.
+Data extracted from Data.gov related to accidental death associated with
+drug overdose in state of Connecticut from 2012 to 2018. Different
+substances, locations, and states of official residents are all example
+variables.
+
+Data includes Office of Chief Medical Examiner information on toxicity,
+death certificates, and scene information upon death.
 
 Source:
-<https://www.mass.gov/guides/population-health-information-tool-phit-data-directory>
+<https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015>
 
 ## Planned analyses, visualizations, coding challenges
 
-This project will look at hospitalization and substance abuse treatment
-demographics over time in the state of Massachusetts. For example,
-differences in gender, race, and age will be assessed. Visualizations
-may includes maps of outcomes in specific communities (i.e. rates of
-hopsitalization, density of drug treatment services).
+This project will look at accidental deaths and drug use demographics
+over time in the state of Connecticut. For example, differences in
+gender, race, and age will be assessed. Visualizations may includes maps
+of drug use and death across different regions of the state or box plots
+of death by drug type.
 
 Anticipated coding challenges could include making external
-generalizations nad assumptions from our analyses to the broader state
-of Massachusetts, since this dataset may only capture a very specific
-population of individuals who are hospitalized and seeking treatment.
-While coding, it will be important to also clean the data, keeping in
-mind individuals who are hospitalized may not be the same as individuals
-seeking treatment. Therefore, trends in the data must be analyzed with
-this this caveat.
+generalizations and assumptions from our analyses to a national level,
+since this dataset may only capture a very specific population of
+individuals who have passed away to drug use. Tidying the data will also
+be an expected challenge.
 
 ## Timeline
 

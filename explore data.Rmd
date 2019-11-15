@@ -30,26 +30,6 @@ theme_set(theme_minimal() + theme(legend.position = "bottom"))
 ```
 
 
-data=
-  list.files(path = "./data", full.names = TRUE)
-
-read_obs = function (path) {
-  test = read.csv(path)
-  test
-}
-
-all_data = map_df(.x = data, ~read_obs(.x))
-  
-ed = readxl::read_excel("./data/community_ed.xlsx") 
-treatment =   readxl::read_excel("./data/treatment.xlsx") 
-inpt =  readxl::read_excel("./data/community_admission.xlsx") 
-
-  janitor::clean_names() %>%
- filter(topic == c("Hospitalization - Drug Overdose", "Substance Addiction Services", "BRFSS Single Year Direct Estimates")) %>%
-  select(topic, geography, sex, race_ethnicity, age_group, available_years)
-data
-
-
 ```{r}
 # from data.gov
 drug_death=
@@ -59,16 +39,19 @@ drug_death=
   select(-time) %>%
   separate(date, into = c("month", "day", "year"), sep = " , ", convert = TRUE) %>%
   drop_na(age, sex, race, residence_county, residence_state) 
-  #goal: split string into city state lat and long
+  
+#goal: split string into city state lat and long (different code for different situations)
   drug_death$death_split_loc = str_split(drug_death$death_city_geo, pattern = "\\(", simplify = TRUE) 
-  #drug_death$latlong_death = str_extract(drug_death[, ncol(drug_death)], pattern = "\\d{}"
+ # str_detect, if there is an abbreviation at the beginning do one thing
+
+  
+  
+  
+   #drug_death$latlong_death = str_extract(drug_death[, ncol(drug_death)], pattern = "\\d{}"
   #drug_death$death_split_geo = str_split(drug_death$death_city_geo, pattern = "\\n", simplify = TRUE)
   
 
-  #mutate(death_citystate = str_extract(death_city_geo, "[:alpha:]{5}")) %>%
-  #mutate(death_latlong = str_extract(death_city_geo, "[:digit:]{5}"))
-  #repeat for residence_city_geo and injury_city_geo
-  
+
 drug_death
 ```
 

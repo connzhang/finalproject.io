@@ -37,35 +37,29 @@ drug_death=
   janitor::clean_names() %>%
   separate(date, into = c("date", "time"), sep = 11) %>%
   select(-time) %>%
-  separate(date, into = c("month", "day", "year"), sep = " , ", convert = TRUE) %>%
-  drop_na(age, sex, race, residence_county, residence_state) 
-  
-#goal: split string into city state lat and long (different code for different situations)
-  drug_death$death_split_loc = str_split(drug_death$death_city_geo, pattern = "\\(", simplify = TRUE) 
- # str_detect, if there is an abbreviation at the beginning do one thing
-
-  
-  
-  
-   #drug_death$latlong_death = str_extract(drug_death[, ncol(drug_death)], pattern = "\\d{}"
-  #drug_death$death_split_geo = str_split(drug_death$death_city_geo, pattern = "\\n", simplify = TRUE)
-  
-
-
-drug_death
-```
-
-
-
-
-```{r}
-drug_death = 
-  drug_death %>% 
-    mutate(
+  separate(date, into = c("month", "day", "year"), sep = "/", convert = TRUE) %>%
+   mutate(
       death_city_longlat = sub("\\).*", "", sub(".*\\(", "", death_city_geo))  ) %>% 
-      separate(col = death_city_longlat, into = c("death_city_lat", "death_city_long"), sep = "," ,remove = FALSE)
-
-
+      separate(col = death_city_longlat, into = c("death_city_lat", "death_city_long"), sep = "," ,remove = FALSE) %>%
+  mutate(
+      injury_city_longlat = sub("\\).*", "", sub(".*\\(", "", injury_city_geo))  ) %>% 
+      separate(col = injury_city_longlat, into = c("injury_city_lat", "injury_city_long"), sep = "," ,remove = FALSE) %>%
+  mutate(
+      residence_city_longlat = sub("\\).*", "", sub(".*\\(", "", residence_city_geo))  ) %>% 
+      separate(col = residence_city_longlat, into = c("residence_city_lat", "residence_city_long"), sep = "," ,remove = FALSE) %>%
+  ##dropping pre-split variables for latitude and longitude, dropping date_type because it is uninformative for this analysis 
+  select(-residence_city_longlat, -death_city_longlat, -injury_city_longlat, -residence_city_geo, -injury_city_geo, -death_city_geo, -mannerof_death, -date_type) %>%
+  mutate(race = recode(race,
+                       "Asian Indian" = "Asian",
+                       "Asian, Other" = "Asian",
+                       "Chinese" = "Asian",
+                       "Hawaiian" = "Other"),
+         race = na_if(race, "Unknown")) 
+  
 ```
+
+
+
+
 
 

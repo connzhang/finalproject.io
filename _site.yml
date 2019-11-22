@@ -1,0 +1,12 @@
+name: "Drug related deaths in connecticut"
+output_dir: "."
+navbar:
+  title: "Home"
+  right:
+    - icon: fa-github fa-lg
+      href: https://github.com/connzhang/finalproject.io
+    
+      
+output:
+  html_document:
+    theme: cerulean

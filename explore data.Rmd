@@ -56,3 +56,16 @@ drug_death
 ```
 
 
+
+
+```{r}
+drug_death = 
+  drug_death %>% 
+    mutate(
+      death_city_longlat = sub("\\).*", "", sub(".*\\(", "", death_city_geo))  ) %>% 
+      separate(col = death_city_longlat, into = c("death_city_lat", "death_city_long"), sep = "," ,remove = FALSE)
+
+
+```
+
+

@@ -1,0 +1,11 @@
+---
+title: "Assessment of Drug Related Deaths in Connecticut"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+---
+![](image1.jpeg)
+
+Accidental drug-related deaths are an ongoing public health concern on a national level, and in the state of Connecticut in particular. Our motivation for this project is to analyze and report on local geogographic and demographic trends related to drug overdose deaths in recent years.
+

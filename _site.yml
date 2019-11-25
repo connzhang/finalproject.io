@@ -5,7 +5,8 @@ navbar:
   right:
     - icon: fa-github fa-lg
       href: https://github.com/connzhang/finalproject.io
-    
+    - text: "Analysis"
+      href: Analysis.html
       
 output:
   html_document:

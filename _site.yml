@@ -7,7 +7,9 @@ navbar:
       href: https://github.com/connzhang/finalproject.io
     - text: "Analysis"
       href: Analysis.html
+    - icon: fa-envelope fa-lg
+      href: mailto:ec3342@cumc.columbia.edu
       
 output:
   html_document:
-    theme: cerulean
+    theme: flatly

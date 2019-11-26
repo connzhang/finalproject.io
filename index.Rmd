@@ -1,12 +1,27 @@
 ---
 title: "Assessment of Drug Related Deaths in Connecticut"
+author: "Connie Zhang, Ekta Chaudhary, Laura Lynch, Rachel Crowley, Tiana Ouyang"
 output: 
   html_document:
     toc: true
     toc_float: true
 ---
+
 ![](image1.jpeg)
 
-Accidental drug-related deaths are an ongoing public health concern on a national level, and in the state of Connecticut in particular. Our motivation for this project is to analyze and report on local geogographic and demographic trends related to drug overdose deaths in recent years.
+Accidental drug-related deaths are an ongoing public health concern on a national level, and in the state of Connecticut in particular. Opioid overdose deaths in Connecticut doubled in the past six years, largely driven by use of multiple drugs together. Our motivation for this project is to analyze and report on local geogographic and demographic trends related to drug overdose deaths in recent years.
 
 ![](ambulance photo.jpg)
+
+### Dataset
+
+We used the [Accidental Drug Related Deaths 2012-2018](https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015) dataset. Data are derived from an investigation by the Office of the Chief Medical Examiner which includes the toxicity report, death certificate, as well as a scene investigation.
+
+
+### Findings
+
+
+
+
+
+### Website overview

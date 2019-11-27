@@ -1,5 +1,4 @@
 ---
-title: "Assessment of Drug Related Deaths in Connecticut"
 output: 
   html_document:
     toc: true
@@ -8,18 +7,23 @@ output:
 
 ![](image1.jpeg)
 
-Accidental drug-related deaths are an ongoing public health concern at a national level, and in the state of Connecticut in particular. Opioid overdose deaths in Connecticut has doubled over the past six years, largely driven by the recreational use of a combination of multiple drugs. The motivation for this project is to analyze and report on local geogographic and demographic trends related to drug overdose deaths in recent years. 
+# **Assessment of Drug-Related Deaths in Connecticut**
+
+Accidental drug-related deaths are an ongoing public health concern at a national level, with a significant increase in the state of Connecticut in particular. Opioid overdose deaths within this state have doubled over the past six years. The Connecticut Department of Health has attributed the increase to the recreational use of a combination of multiple drugs at one time. The motivation for this project is to analyze and report on Connecticut's local geogographic and demographic trends related to drug overdose deaths in recent years. 
+
+The analysis, conclusions, and suggestions for intervention from this asessement are theoretically crafted to further supplement Connecticut Department of Public Health's work to understand and combat the rise in drug-related deaths in the State. 
 
 ![](ambulance photo.jpg)
 
 ### **Dataset**
 
-For this assessment, the [Accidental Drug Related Deaths 2012-2018](https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015) dataset was utilized. This data was originally derived from an investigation by the Connecticut Office of the Chief Medical Examiner which includes the toxicity report, death certificate, as well as a scene investigation.
-
-
-### **Findings**
+For this assessment, the [Accidental Drug Related Deaths 2012-2018](https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015) dataset was utilized. This data was originally derived from an investigation by the state of Connecticut's Office of the Chief Medical Examiner which includes the toxicity report, death certificate, as well as a scene investigation.
 
 ### **Website Overview**
+***Graphs***: Demographic and geographic correlates of drug-Related Deaths in Connecticut
 
+***Analysis***: Report describing the findings from the data analysis and visualizations
+
+### **Screencast**
 
 **Contributers: Connie Zhang, Laura Lynch, Rachel Crowley, Ekta Chaudhary, Tiana Ouyang**

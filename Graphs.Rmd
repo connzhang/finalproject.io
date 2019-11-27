@@ -1,5 +1,5 @@
 ---
-title: "Graphs"
+title: "Demographic and Geographic Correlates to Drug-Related Deaths in Connecticut"
 output: 
   flexdashboard::flex_dashboard:
     orientation: columns

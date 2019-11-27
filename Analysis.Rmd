@@ -1,6 +1,6 @@
 ---
-title: "Assessment of Drug-Related Deaths in Connecticut"
-author: Connie, Laura, Rachel, Ekta, Tiana
+title: "Project Analysis Report"
+author: "Authors: Connie, Laura, Rachel, Ekta, Tiana"
 output: html_document
 ---
 
@@ -8,14 +8,21 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+
 ## **Background** 
+The rate of drug related deaths in Connecticut is currenlty higher than the national average and has continued to steadily increase. While there have been a sigficicant number of initiatives implemented to reduce drug misuse in recent years, it is important to understand the demographic and geogrphaic attributes underlying this public health issue in order to effectively reduce drug-related deaths in vulnerable populations. 
 
 ## **Initial questions**
 
+
 ## **Data** 
 
-## **Exploratory Analysis**
+## **Exploratory Analysis** 
 
 ## **Findings** 
+* Seasonal variation in drug related deaths from 2015-2018
+* Stratification of death by race, gender, age
+* Deaths attributed to each drug type 
 
-## **Disucssion**
+## **Discussion**
+* Suggestions for modes of intervention, how findings could impact understanding of drug-overdose deaths

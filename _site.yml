@@ -1,12 +1,14 @@
-name: "Drug related deaths in connecticut"
+name: "Drug-Related Deaths in Connecticut"
 output_dir: "."
 navbar:
   title: "Home"
   right:
     - icon: fa-github fa-lg
       href: https://github.com/connzhang/finalproject.io
+    - text: "Graphs"
+      href: graphs.html
     - text: "Analysis"
-      href: Analysis.html
+      href: analysis.html
     - icon: fa-envelope fa-lg
       href: mailto:ec3342@cumc.columbia.edu
       

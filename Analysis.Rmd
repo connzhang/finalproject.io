@@ -1,36 +1,21 @@
 ---
-title: "Analysis"
-output: 
-  flexdashboard::flex_dashboard:
-    orientation: columns
-    vertical_layout: fill
+title: "Assessment of Drug-Related Deaths in Connecticut"
+author: Connie, Laura, Rachel, Ekta, Tiana
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
-library(flexdashboard)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Column {data-width=650}
------------------------------------------------------------------------
+## **Background** 
 
-### Chart A
+## **Initial questions**
 
-```{r}
+## **Data** 
 
-```
+## **Exploratory Analysis**
 
-Column {data-width=350}
------------------------------------------------------------------------
+## **Findings** 
 
-### Chart B
-
-```{r}
-
-```
-
-### Chart C
-
-```{r}
-
-```
-
+## **Disucssion**

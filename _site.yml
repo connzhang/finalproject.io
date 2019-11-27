@@ -3,9 +3,9 @@ output_dir: "."
 navbar:
   title: "Home"
   right:
-    - text: "Graphs"
+    - text: "Visualizations"
       href: graphs.html
-    - text: "Analysis"
+    - text: "Project Report"
       href: analysis.html
     - icon: fa-github fa-lg
       href: https://github.com/connzhang/finalproject.io

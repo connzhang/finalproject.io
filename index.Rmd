@@ -20,9 +20,9 @@ The analysis, conclusions, and suggestions for intervention from this asessement
 For this assessment, the [Accidental Drug Related Deaths 2012-2018](https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015) dataset was utilized. This data was originally derived from an investigation by the state of Connecticut's Office of the Chief Medical Examiner which includes the toxicity report, death certificate, as well as a scene investigation.
 
 ### **Website Overview**
-***Graphs***: Demographic and geographic correlates of drug-Related Deaths in Connecticut
+***Visualizations***: Graphs depicting demographic and geographic correlates of drug-Related Deaths in Connecticut
 
-***Analysis***: Report describing the findings from the data analysis and visualizations
+***Project Report***: Report describing the findings from the data analysis and visualizations
 
 ### **Screencast**
 

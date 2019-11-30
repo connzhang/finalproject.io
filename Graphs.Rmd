@@ -7,10 +7,19 @@ output:
 ---
 
 ```{r setup, include=FALSE}
-library(flexdashboard)
 library(tidyverse)
 library(viridis)
+library(leaflet)
 library(dplyr)
+library(kableExtra)
+options(knitr.table.format = "html")
+library(DT)
+library(plotly)
+library(fmsb)
+library(scales)
+library(lattice)
+library(flexdashboard)
+
 ```
 
 ```{r}

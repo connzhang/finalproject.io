@@ -277,10 +277,10 @@ $(document).ready(function () {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="graphs.html">Graphs</a>
+  <a href="graphs.html">Visualizations</a>
 </li>
 <li>
-  <a href="analysis.html">Analysis</a>
+  <a href="analysis.html">Project Report</a>
 </li>
 <li>
   <a href="https://github.com/connzhang/finalproject.io">
@@ -302,19 +302,110 @@ $(document).ready(function () {
 </div>
 
 
+<pre class="r"><code>drug_death =
+  read_csv(&quot;./data/Accidental_Drug_Related_Deaths_2012-2018.csv&quot;) %&gt;%
+  janitor::clean_names() %&gt;%
+  separate(date, into = c(&quot;date&quot;, &quot;time&quot;), sep = 11) %&gt;%
+  select(-time) %&gt;%
+  separate(date, into = c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;), sep = &quot;/&quot;, convert = TRUE, remove = FALSE) %&gt;%
+  mutate(
+     date = as.Date(date, format = &#39;%m/%d/%Y&#39;), 
+     death_city_longlat = sub(&quot;\\).*&quot;, &quot;&quot;, sub(&quot;.*\\(&quot;, &quot;&quot;, death_city_geo))  ) %&gt;% 
+  separate(col = death_city_longlat, into = c(&quot;death_city_lat&quot;, &quot;death_city_long&quot;), sep = &quot;,&quot; ,remove = FALSE) %&gt;%
+  mutate(
+      injury_city_longlat = sub(&quot;\\).*&quot;, &quot;&quot;, sub(&quot;.*\\(&quot;, &quot;&quot;, injury_city_geo))  ) %&gt;% 
+      separate(col = injury_city_longlat, into = c(&quot;injury_city_lat&quot;, &quot;injury_city_long&quot;), sep = &quot;,&quot; ,remove = FALSE) %&gt;%
+  mutate(
+      residence_city_longlat = sub(&quot;\\).*&quot;, &quot;&quot;, sub(&quot;.*\\(&quot;, &quot;&quot;, residence_city_geo))  ) %&gt;% 
+      separate(col = residence_city_longlat, into = c(&quot;residence_city_lat&quot;, &quot;residence_city_long&quot;), sep = &quot;,&quot; ,remove = FALSE) %&gt;%
+  ##dropping pre-split variables for latitude and longitude, dropping date_type because it is uninformative for this analysis 
+  select(-residence_city_longlat, -death_city_longlat, -injury_city_longlat, -residence_city_geo, -injury_city_geo, -death_city_geo, -mannerof_death, -date_type) %&gt;%
+  mutate(race = recode(race,
+                       &quot;Asian Indian&quot; = &quot;Asian&quot;,
+                       &quot;Asian, Other&quot; = &quot;Asian&quot;,
+                       &quot;Chinese&quot; = &quot;Asian&quot;,
+                       &quot;Hawaiian&quot; = &quot;Other&quot;),
+         race = na_if(race, &quot;Unknown&quot;)) </code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   Age = col_double()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
 <div id="column" class="section level2" data-width="650">
 <h2>Column</h2>
 <div id="chart-a" class="section level3">
 <h3>Chart A</h3>
+<pre class="r"><code>drug_death %&gt;% 
+  filter(race %in% c(&quot;White&quot;,&quot;Black&quot;, &quot;Hispanic, White&quot;, &quot;Asian&quot;, &quot;Hispanic, Black&quot;, &quot;Other&quot;)) %&gt;% 
+  group_by(race, year, month) %&gt;% 
+  mutate(
+    n = n()
+  ) %&gt;% 
+  ungroup() %&gt;% 
+  ggplot(aes(x = date, y = n, group = race, color = race)) +
+  geom_smooth(se = FALSE, span = 0.45, method = &#39;loess&#39;) +
+  theme_minimal() +
+  theme(
+    legend.position = &quot;right&quot;,
+    plot.title = element_text(size = 14)
+  ) +
+  ggtitle(&quot;A Line chart of number of death over time&quot;) +
+  xlab(&quot;year&quot;) +
+  ylab(&quot;Number of death each day&quot;)</code></pre>
+<p><img src="Graphs_files/figure-html/unnamed-chunk-2-1.png" width="672" /></p>
 </div>
 </div>
 <div id="column-1" class="section level2" data-width="350">
 <h2>Column</h2>
 <div id="chart-b" class="section level3">
 <h3>Chart B</h3>
+<pre class="r"><code>drug_death %&gt;% 
+  group_by(age, race) %&gt;% 
+  mutate(n = n()) %&gt;% 
+  ungroup() %&gt;%
+  select(age, race, n) %&gt;% 
+  ggplot(
+    aes(x = age, y = n, color = race)
+  ) +
+  geom_point() +
+  geom_line()</code></pre>
+<p><img src="Graphs_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
 </div>
 <div id="chart-c" class="section level3">
 <h3>Chart C</h3>
+<pre class="r"><code>drug_death %&gt;% 
+  filter(
+    sex %in% c(&quot;Female&quot;, &quot;Male&quot;)
+  ) %&gt;%
+  group_by(race, sex) %&gt;% 
+  mutate(
+    n = n()
+  ) %&gt;%
+  select(race, sex, n) %&gt;% 
+  unique() %&gt;% 
+  ungroup() %&gt;% 
+  pivot_wider(
+    names_from = &quot;sex&quot;,
+    values_from = &quot;n&quot;
+  ) %&gt;% 
+  na.omit() %&gt;% 
+  mutate(
+    race = forcats::fct_reorder(race, Male)
+  ) %&gt;% 
+  ggplot() +
+  geom_segment(aes(x = race, xend = race, y = Female, yend = Male), color = &quot;grey&quot;) +
+  geom_point(aes(x = race, y = Female), color = rgb(0.2,0.7,0.1,0.5), size = 4.5) +
+  geom_point( aes(x = race, y = Male), color = rgb(0.7,0.2,0.1,0.5), size = 4.5 ) +
+  coord_flip() +
+  theme_minimal() +
+  theme(
+    legend.position = &quot;right&quot;,
+  ) +
+  xlab(&quot;&quot;) +
+  ylab(&quot;Count&quot;) +
+  labs(title = &quot;Sex distribution over race&quot;)</code></pre>
+<p><img src="Graphs_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
 </div>
 </div>
 

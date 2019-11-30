@@ -1,0 +1,142 @@
+---
+title: "Distribution of Drug Related Deaths across Connecticut State by Location Type"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+    echo: false
+---
+
+```{r setup, include=FALSE, echo = FALSE, message = FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(viridis)
+library(leaflet)
+library(dplyr)
+library(kableExtra)
+options(knitr.table.format = "html")
+library(DT)
+library(plotly)
+library(fmsb)
+library(scales)
+library(lattice)
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 10, 
+  fig.height = 6,
+  out.width = "90%"
+)
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+```
+
+
+```{r, echo = FALSE, message = FALSE}
+# from data.gov
+drug_death=
+  read_csv("./data/Accidental_Drug_Related_Deaths_2012-2018.csv", col_types = cols()) %>%
+  janitor::clean_names() %>%
+  separate(date, into = c("date", "time"), sep = 11) %>%
+  select(-time) %>%
+  separate(date, into = c("month", "day", "year"), sep = "/", convert = TRUE, remove = FALSE) %>%
+  mutate(
+     date = as.Date(date, format = '%m/%d/%Y'), 
+     death_city_longlat = sub("\\).*", "", sub(".*\\(", "", death_city_geo))  ) %>% 
+  separate(col = death_city_longlat, into = c("death_city_lat", "death_city_long"), sep = "," ,remove = FALSE) %>%
+  mutate(
+      injury_city_longlat = sub("\\).*", "", sub(".*\\(", "", injury_city_geo))  ) %>% 
+      separate(col = injury_city_longlat, into = c("injury_city_lat", "injury_city_long"), sep = "," ,remove = FALSE) %>%
+  mutate(
+      residence_city_longlat = sub("\\).*", "", sub(".*\\(", "", residence_city_geo))  ) %>% 
+      separate(col = residence_city_longlat, into = c("residence_city_lat", "residence_city_long"), sep = "," ,remove = FALSE) %>%
+  ##dropping pre-split variables for latitude and longitude, dropping date_type because it is uninformative for this analysis 
+  select(-residence_city_longlat, -death_city_longlat, -injury_city_longlat, -residence_city_geo, -injury_city_geo, -death_city_geo, -mannerof_death, -date_type) %>%
+  mutate(race = recode(race,
+                       "Asian Indian" = "Asian",
+                       "Asian, Other" = "Asian",
+                       "Chinese" = "Asian",
+                       "Hawaiian" = "Other"),
+         race = na_if(race, "Unknown")) 
+  
+```
+
+### **Hospitals**
+
+```{r, echo = FALSE, message = FALSE}
+hospital_deaths_map = 
+   drug_death %>%
+   filter(location == "Hospital") %>% 
+   rename(long = death_city_long,
+          lat = death_city_lat) %>% 
+   mutate(long = as.numeric(long),
+          lat = as.numeric(lat)) %>% 
+   group_by(long, lat) %>%
+   count() %>% 
+   leaflet() %>%
+   addTiles() %>%
+   addCircleMarkers(clusterOptions = markerClusterOptions()) 
+               
+
+hospital_deaths_map
+
+```
+
+### **Residences**
+
+```{r, echo = FALSE, message = FALSE}
+residence_deaths_map = 
+   drug_death %>%
+   filter(location == "Residence") %>% 
+   rename(long = death_city_long,
+          lat = death_city_lat) %>% 
+   mutate(long = as.numeric(long),
+          lat = as.numeric(lat)) %>% 
+   leaflet() %>%
+   addTiles() %>%
+   addCircleMarkers(clusterOptions = markerClusterOptions())
+   
+residence_deaths_map 
+```
+
+### **Nursing homes, hospice care, or convalescent homes**
+
+```{r, echo = FALSE, message = FALSE}
+nursing_deaths_map = 
+drug_death %>%
+  filter(location %in% c("Nursing Home", "Hospice", "Convalescent Home")) %>% 
+   rename(long = death_city_long,
+          lat = death_city_lat) %>% 
+   mutate(long = as.numeric(long),
+          lat = as.numeric(lat)) %>% 
+   leaflet() %>%
+   addTiles() %>%
+   addCircleMarkers(clusterOptions = markerClusterOptions())
+   
+nursing_deaths_map
+
+```
+
+### **Other locations**
+
+```{r, echo = FALSE, message = FALSE}
+other_deaths_map = 
+drug_death %>%
+  filter(location == "Other") %>% 
+   rename(long = death_city_long,
+          lat = death_city_lat) %>% 
+   mutate(long = as.numeric(long),
+          lat = as.numeric(lat)) %>% 
+   leaflet() %>%
+   addTiles() %>%
+   addCircleMarkers(clusterOptions = markerClusterOptions())
+
+other_deaths_map
+
+```

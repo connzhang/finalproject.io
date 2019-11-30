@@ -5,6 +5,8 @@ navbar:
   right:
     - text: "Visualizations"
       href: Graphs.html
+    - text: "Map of Drug Related Deaths"
+      href: MapofDeaths.html
     - text: "Project Report"
       href: Analysis.html
     - icon: fa-github fa-lg

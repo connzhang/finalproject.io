@@ -279,17 +279,17 @@ $(document).ready(function () {
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
+  <a href="Graphs.html">Visualizations</a>
+</li>
+<li>
+  <a href="MapofDeaths.html">Map of Drug Related Deaths</a>
+</li>
+<li>
+  <a href="Analysis.html">Project Report</a>
+</li>
+<li>
   <a href="https://github.com/connzhang/finalproject.io">
     <span class="fa fa-github fa-lg"></span>
-     
-  </a>
-</li>
-<li>
-  <a href="Analysis.html">Analysis</a>
-</li>
-<li>
-  <a href="mailto:ec3342@cumc.columbia.edu">
-    <span class="fa fa-envelope fa-lg"></span>
      
   </a>
 </li>
@@ -409,7 +409,6 @@ drug_death=
   select(-n) %&gt;% 
   arrange(drug, age)
 
-
 xyplot(
   pctn ~ age | drug,
   data = data.frame(drug_corr),
@@ -523,7 +522,7 @@ radarchart(drug_spider,
            vlcex = 0.8
            )
 
-legend(x=1.4, y=1.3, legend = c(rownames(drug_spider))[3:8], bty = &quot;n&quot;, pch=20 , col=colors_in , text.col = &quot;black&quot;, cex=0.8, pt.cex=1)</code></pre>
+legend(x=1.1, y=1.52, legend = c(rownames(drug_spider))[3:8], bty = &quot;n&quot;, pch=20 , col=colors_in , text.col = &quot;black&quot;, cex=0.8, pt.cex=1)</code></pre>
 <p><img src="explore-data_files/figure-html/unnamed-chunk-4-1.png" width="90%" /></p>
 </div>
 

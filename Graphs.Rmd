@@ -1,0 +1,131 @@
+---
+title: "Demographic and Geographic Correlates to Drug-Related Deaths in Connecticut"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: columns
+    vertical_layout: fill
+---
+
+```{r setup, include=FALSE}
+library(tidyverse)
+library(viridis)
+library(leaflet)
+library(dplyr)
+library(kableExtra)
+options(knitr.table.format = "html")
+library(DT)
+library(plotly)
+library(fmsb)
+library(scales)
+library(lattice)
+library(flexdashboard)
+
+```
+
+```{r}
+drug_death =
+  read_csv("./data/Accidental_Drug_Related_Deaths_2012-2018.csv") %>%
+  janitor::clean_names() %>%
+  separate(date, into = c("date", "time"), sep = 11) %>%
+  select(-time) %>%
+  separate(date, into = c("month", "day", "year"), sep = "/", convert = TRUE, remove = FALSE) %>%
+  mutate(
+     date = as.Date(date, format = '%m/%d/%Y'), 
+     death_city_longlat = sub("\\).*", "", sub(".*\\(", "", death_city_geo))  ) %>% 
+  separate(col = death_city_longlat, into = c("death_city_lat", "death_city_long"), sep = "," ,remove = FALSE) %>%
+  mutate(
+      injury_city_longlat = sub("\\).*", "", sub(".*\\(", "", injury_city_geo))  ) %>% 
+      separate(col = injury_city_longlat, into = c("injury_city_lat", "injury_city_long"), sep = "," ,remove = FALSE) %>%
+  mutate(
+      residence_city_longlat = sub("\\).*", "", sub(".*\\(", "", residence_city_geo))  ) %>% 
+      separate(col = residence_city_longlat, into = c("residence_city_lat", "residence_city_long"), sep = "," ,remove = FALSE) %>%
+  ##dropping pre-split variables for latitude and longitude, dropping date_type because it is uninformative for this analysis 
+  select(-residence_city_longlat, -death_city_longlat, -injury_city_longlat, -residence_city_geo, -injury_city_geo, -death_city_geo, -mannerof_death, -date_type) %>%
+  mutate(race = recode(race,
+                       "Asian Indian" = "Asian",
+                       "Asian, Other" = "Asian",
+                       "Chinese" = "Asian",
+                       "Hawaiian" = "Other"),
+         race = na_if(race, "Unknown")) 
+  
+```
+
+Column {data-width=650}
+-----------------------------------------------------------------------
+
+### Chart A
+
+```{r, warning=FALSE}
+drug_death %>% 
+  filter(race %in% c("White","Black", "Hispanic, White", "Asian", "Hispanic, Black", "Other")) %>% 
+  group_by(race, year, month) %>% 
+  mutate(
+    n = n()
+  ) %>% 
+  ungroup() %>% 
+  ggplot(aes(x = date, y = n, group = race, color = race)) +
+  geom_smooth(se = FALSE, span = 0.45, method = 'loess') +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+    plot.title = element_text(size = 14)
+  ) +
+  ggtitle("A Line chart of number of death over time") +
+  xlab("year") +
+  ylab("Number of death each day")
+```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
+
+### Chart B
+
+```{r, warning=FALSE}
+drug_death %>% 
+  group_by(age, race) %>% 
+  mutate(n = n()) %>% 
+  ungroup() %>%
+  select(age, race, n) %>% 
+  ggplot(
+    aes(x = age, y = n, color = race)
+  ) +
+  geom_point() +
+  geom_line()
+```
+
+### Chart C
+
+```{r, warning=FALSE}
+drug_death %>% 
+  filter(
+    sex %in% c("Female", "Male")
+  ) %>%
+  group_by(race, sex) %>% 
+  mutate(
+    n = n()
+  ) %>%
+  select(race, sex, n) %>% 
+  unique() %>% 
+  ungroup() %>% 
+  pivot_wider(
+    names_from = "sex",
+    values_from = "n"
+  ) %>% 
+  na.omit() %>% 
+  mutate(
+    race = forcats::fct_reorder(race, Male)
+  ) %>% 
+  ggplot() +
+  geom_segment(aes(x = race, xend = race, y = Female, yend = Male), color = "grey") +
+  geom_point(aes(x = race, y = Female), color = rgb(0.2,0.7,0.1,0.5), size = 4.5) +
+  geom_point( aes(x = race, y = Male), color = rgb(0.7,0.2,0.1,0.5), size = 4.5 ) +
+  coord_flip() +
+  theme_minimal() +
+  theme(
+    legend.position = "right",
+  ) +
+  xlab("") +
+  ylab("Count") +
+  labs(title = "Sex distribution over race")
+```
+

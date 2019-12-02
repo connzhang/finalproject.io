@@ -1,36 +1,31 @@
 ---
-title: "Analysis"
-output: 
-  flexdashboard::flex_dashboard:
-    orientation: columns
-    vertical_layout: fill
+title: "Project Analysis Report"
+author: "Authors: Connie, Laura, Rachel, Ekta, Tiana"
+output: html_document
 ---
 
 ```{r setup, include=FALSE}
-library(flexdashboard)
+knitr::opts_chunk$set(echo = TRUE)
 ```
 
-Column {data-width=650}
------------------------------------------------------------------------
 
-### Chart A
+## **Background** 
+The rate of drug related deaths in Connecticut is currenlty higher than the national average and has continued to steadily increase. While there have been a sigficicant number of initiatives implemented to reduce drug misuse in recent years, it is important to understand the demographic and geogrphaic attributes underlying this public health issue in order to effectively reduce drug-related deaths in vulnerable populations. 
 
-```{r}
+## **Initial Questions**
+* What are demographic characteristics of individuals who experienced a drug-related death in Connecticut? 
+* Where are these deaths mainly occurring within the state? 
+* Are there seasonal variations in deaths across each year? 
+* What specific drug types have been attributed to the increase in drug-related deaths? 
 
-```
+## **Data** 
 
-Column {data-width=350}
------------------------------------------------------------------------
+## **Exploratory Analysis** 
 
-### Chart B
+## **Findings** 
+* Seasonal variation in drug related deaths from 2015-2018
+* Stratification of death by race, gender, age
+* Deaths attributed to each drug type 
 
-```{r}
-
-```
-
-### Chart C
-
-```{r}
-
-```
-
+## **Discussion**
+* Suggestions for modes of intervention, how findings could impact understanding of drug-overdose deaths

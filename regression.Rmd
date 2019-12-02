@@ -1,0 +1,142 @@
+---
+title: "regression, final project"
+author: "Laura Lynch"
+date: "11/26/2019"
+output: html_document
+---
+
+```{r}
+# set up
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(viridis)
+library(leaflet)
+library(dplyr)
+library(corrplot)
+library(modelr)
+library(mgcv)
+library(purrr)
+library(stringr)
+
+
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 10, 
+  fig.height = 6,
+  out.width = "90%"
+)
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+```
+
+```{r}
+# original cleaning code
+
+drug_death=
+  read_csv("./data/Accidental_Drug_Related_Deaths_2012-2018.csv") %>%
+  janitor::clean_names() %>%
+  separate(date, into = c("date", "time"), sep = 11) %>%
+  select(-time) %>%
+  separate(date, into = c("month", "day", "year"), sep = " , ", convert = TRUE) %>%
+  drop_na(age, sex, race, residence_county, residence_state) %>%
+  mutate(death_city_longlat = sub("\\).*", "", sub(".*\\(", "", death_city_geo))) %>%
+  # Laura changed date to month
+  separate(month, into = c("month", "day", "year"), sep = "/", convert = TRUE, remove = FALSE) %>%
+  # Laura deleted:      date = as.Date(date, format = '%m/%d/%Y'), 
+  mutate(
+     death_city_longlat = sub("\\).*", "", sub(".*\\(", "", death_city_geo))  ) %>% 
+  separate(col = death_city_longlat, into = c("death_city_lat", "death_city_long"), sep = "," ,remove = FALSE) %>%
+  mutate(
+      injury_city_longlat = sub("\\).*", "", sub(".*\\(", "", injury_city_geo))  ) %>% 
+      separate(col = injury_city_longlat, into = c("injury_city_lat", "injury_city_long"), sep = "," ,remove = FALSE) %>%
+  mutate(
+      residence_city_longlat = sub("\\).*", "", sub(".*\\(", "", residence_city_geo))  ) %>% 
+      separate(col = residence_city_longlat, into = c("residence_city_lat", "residence_city_long"), sep = "," ,remove = FALSE) %>%
+  ##dropping pre-split variables for latitude and longitude, dropping date_type because it is uninformative for this analysis 
+  select(-residence_city_longlat, -death_city_longlat, -injury_city_longlat, -residence_city_geo, -injury_city_geo, -death_city_geo, -mannerof_death, -date_type) %>%
+  mutate(race = recode(race,
+                       "Asian Indian" = "Asian",
+                       "Asian, Other" = "Asian",
+                       "Chinese" = "Asian",
+                       "Hawaiian" = "Other"),
+         race = na_if(race, "Unknown")) 
+  
+drug_death
+```
+
+```{r}
+CT = c("LITCHFIELD", "HARTFORD", "TOLLAND", "NEW LONDON", "MIDDLESEX", "NEW HAVEN", "WINDHAM", "FAIRFIELD")
+
+drug_death_bin =
+  drug_death %>%
+  # binarize outcome: death in hospital YES or NO
+  mutate(death_location = ifelse(location == "Hospital", c(1), c(0))) %>%
+  # narrow data set to relevent regression variables
+  select(death_location, age, sex, race, residence_county) %>%
+  # identify out of state counties
+  mutate(new_county = ifelse(residence_county %in% CT,
+                             str_to_lower(residence_county, locale = "en"),
+                             "out of state")) %>%
+  select(-residence_county) %>%
+  drop_na(death_location, race) %>%
+  # create factor variables for regression
+  mutate(death_location = factor(death_location, levels = c(1, 0), labels = c("In hospital", "Outside hospital")),
+        sex = factor(sex, labels = c("Male", "Female", "Unknown")),
+        race = factor(race, labels = c("White", "Black", "Hispanic, White", "Asian", "Other", "Hispanic, Black")),
+        new_county = factor(new_county, labels = c("litchfield", "hartford", "tolland", "new london", "middlesex", "new haven", "windham", "fairfield", "out of state"))
+          ) 
+
+drug_death_bin
+```
+
+```{r}
+# specify predictor variable types
+drug_death_bin %>%  
+  mutate(
+    age = as.numeric(age),
+    sex = fct_infreq(sex),
+    race = fct_infreq(race),
+    new_county = fct_infreq(new_county)
+    )
+
+# create model
+model=
+  glm(death_location ~ age + sex + race + new_county, data = drug_death_bin, family = "binomial") 
+
+
+model %>%
+  broom::glance()%>% 
+  knitr::kable(digits = 3)
+
+model %>%
+  broom::tidy()%>% 
+  knitr::kable(digits = 3)
+
+summary(model)
+# significant p = age, sexFemale, counties: Hartford, New London, Out of State
+
+model %>% 
+  broom::tidy() %>% 
+  mutate(OR = exp(estimate)) %>%
+  select(term, log_OR = estimate, OR, p.value) %>% 
+  knitr::kable(digits = 3)
+```
+
+# Analysis
+
+In order to understand the likelihood of a drug related death occuring in the hospital versus not in the hospital, we binarized the variable `death_location` as the outcome (1 = In the hospital, 0 = Not in the hospital). For this logistic regression analysis we used a generlized logistic model with the predictors age, sex, race and county of residence. `Age` was treated as a continuous variable. `Sex` was categorical (Male, Female, and Unknown) with Male as the reference category based on frequency. `Race` was categorical with White, Black, Hispanic White, Asian, Other, Hispanic Black; White was the reference category based on frequency and NAs were dropped pre-analysis (n= 16). Finally the 8 `Counties` of CT were converted to factor variables with all other counties being converted to "out of state" with Litchfield Country as the reference variable based on frequency, NAs were dropped (n= 7).
+
+The significant variables in the model (p-value < 0.05) were  age, Female, Hartford and New London Counties and the  "Out of State" category.
+TERM          OR      P-VALUE Odds of dying in the hospital vs. outside the hospital
+age           1.006   0.049   (for every 1-year increase in age)
+female        1.207   0.028   (vs. Male)
+Hartford      1.497   0.000   (vs. Litchfield)
+New London    1.769   0.007   "
+Out of State  1.741   0.015   "

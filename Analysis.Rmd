@@ -22,7 +22,7 @@ In order to address our initial research questions, we were interested in partic
 
 X: age as a continouous variable, race (categorica), sex(categorical),  county of residence 
 
-Y: place of death (in hospital or out of hospital),
+Y: place of death (in hospital or out of hospital)
 
 ## **Exploratory Analysis** 
 

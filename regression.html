@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+<meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
+
+
+<meta name="author" content="Laura Lynch" />
+
+<meta name="date" content="2019-11-26" />
+
+<title>regression, final project</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/flatly.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
+<link href="site_libs/font-awesome-5.1.0/css/all.css" rel="stylesheet" />
+<link href="site_libs/font-awesome-5.1.0/css/v4-shims.css" rel="stylesheet" />
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs) {
+  hljs.configure({languages: []});
+  hljs.initHighlightingOnLoad();
+  if (document.readyState && document.readyState === "complete") {
+    window.setTimeout(function() { hljs.initHighlighting(); }, 0);
+  }
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+.html-widget {
+  margin-bottom: 20px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+summary {
+  display: list-item;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 60px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h2 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h3 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h4 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h5 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.section h6 {
+  padding-top: 65px;
+  margin-top: -65px;
+}
+.dropdown-submenu {
+  position: relative;
+}
+.dropdown-submenu>.dropdown-menu {
+  top: 0;
+  left: 100%;
+  margin-top: -6px;
+  margin-left: -1px;
+  border-radius: 0 6px 6px 6px;
+}
+.dropdown-submenu:hover>.dropdown-menu {
+  display: block;
+}
+.dropdown-submenu>a:after {
+  display: block;
+  content: " ";
+  float: right;
+  width: 0;
+  height: 0;
+  border-color: transparent;
+  border-style: solid;
+  border-width: 5px 0 5px 5px;
+  border-left-color: #cccccc;
+  margin-top: 5px;
+  margin-right: -10px;
+}
+.dropdown-submenu:hover>a:after {
+  border-left-color: #ffffff;
+}
+.dropdown-submenu.pull-left {
+  float: none;
+}
+.dropdown-submenu.pull-left>.dropdown-menu {
+  left: -100%;
+  margin-left: 10px;
+  border-radius: 6px 0 6px 6px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+<!-- tabsets -->
+
+<style type="text/css">
+.tabset-dropdown > .nav-tabs {
+  display: inline-table;
+  max-height: 500px;
+  min-height: 44px;
+  overflow-y: auto;
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs > li.active:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li.active:before {
+  content: "&#xe258;";
+  border: none;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open:before {
+  content: "";
+  font-family: 'Glyphicons Halflings';
+  display: inline-block;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+}
+
+.tabset-dropdown > .nav-tabs > li.active {
+  display: block;
+}
+
+.tabset-dropdown > .nav-tabs > li > a,
+.tabset-dropdown > .nav-tabs > li > a:focus,
+.tabset-dropdown > .nav-tabs > li > a:hover {
+  border: none;
+  display: inline-block;
+  border-radius: 4px;
+}
+
+.tabset-dropdown > .nav-tabs.nav-tabs-open > li {
+  display: block;
+  float: none;
+}
+
+.tabset-dropdown > .nav-tabs > li {
+  display: none;
+}
+</style>
+
+<!-- code folding -->
+
+
+
+
+</head>
+
+<body>
+
+
+<div class="container-fluid main-container">
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">Home</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        <li>
+  <a href="Graphs.html">Visualizations</a>
+</li>
+<li>
+  <a href="MapofDeaths.html">Map of Drug Related Deaths</a>
+</li>
+<li>
+  <a href="Analysis.html">Project Report</a>
+</li>
+<li>
+  <a href="https://github.com/connzhang/finalproject.io">
+    <span class="fa fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">regression, final project</h1>
+<h4 class="author">Laura Lynch</h4>
+<h4 class="date">11/26/2019</h4>
+
+</div>
+
+
+<pre class="r"><code># set up
+knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)</code></pre>
+<pre><code>## ── Attaching packages ─────────────────────────────────────── tidyverse 1.2.1 ──</code></pre>
+<pre><code>## ✔ ggplot2 3.2.1     ✔ purrr   0.3.2
+## ✔ tibble  2.1.3     ✔ dplyr   0.8.3
+## ✔ tidyr   1.0.0     ✔ stringr 1.4.0
+## ✔ readr   1.3.1     ✔ forcats 0.4.0</code></pre>
+<pre><code>## ── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+## ✖ dplyr::filter() masks stats::filter()
+## ✖ dplyr::lag()    masks stats::lag()</code></pre>
+<pre class="r"><code>library(viridis)</code></pre>
+<pre><code>## Loading required package: viridisLite</code></pre>
+<pre class="r"><code>library(leaflet)
+library(dplyr)
+library(corrplot)</code></pre>
+<pre><code>## corrplot 0.84 loaded</code></pre>
+<pre class="r"><code>library(modelr)
+library(mgcv)</code></pre>
+<pre><code>## Loading required package: nlme</code></pre>
+<pre><code>## 
+## Attaching package: &#39;nlme&#39;</code></pre>
+<pre><code>## The following object is masked from &#39;package:dplyr&#39;:
+## 
+##     collapse</code></pre>
+<pre><code>## This is mgcv 1.8-28. For overview type &#39;help(&quot;mgcv-package&quot;)&#39;.</code></pre>
+<pre class="r"><code>library(purrr)
+library(stringr)
+
+
+knitr::opts_chunk$set(
+    echo = TRUE,
+    warning = FALSE,
+    fig.width = 10, 
+  fig.height = 6,
+  out.width = &quot;90%&quot;
+)
+options(
+  ggplot2.continuous.colour = &quot;viridis&quot;,
+  ggplot2.continuous.fill = &quot;viridis&quot;
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+theme_set(theme_minimal() + theme(legend.position = &quot;bottom&quot;))</code></pre>
+<pre class="r"><code># original cleaning code
+
+drug_death=
+  read_csv(&quot;./data/Accidental_Drug_Related_Deaths_2012-2018.csv&quot;) %&gt;%
+  janitor::clean_names() %&gt;%
+  separate(date, into = c(&quot;date&quot;, &quot;time&quot;), sep = 11) %&gt;%
+  select(-time) %&gt;%
+  separate(date, into = c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;), sep = &quot; , &quot;, convert = TRUE) %&gt;%
+  drop_na(age, sex, race, residence_county, residence_state) %&gt;%
+  mutate(death_city_longlat = sub(&quot;\\).*&quot;, &quot;&quot;, sub(&quot;.*\\(&quot;, &quot;&quot;, death_city_geo))) %&gt;%
+  # Laura changed date to month
+  separate(month, into = c(&quot;month&quot;, &quot;day&quot;, &quot;year&quot;), sep = &quot;/&quot;, convert = TRUE, remove = FALSE) %&gt;%
+  # Laura deleted:      date = as.Date(date, format = &#39;%m/%d/%Y&#39;), 
+  mutate(
+     death_city_longlat = sub(&quot;\\).*&quot;, &quot;&quot;, sub(&quot;.*\\(&quot;, &quot;&quot;, death_city_geo))  ) %&gt;% 
+  separate(col = death_city_longlat, into = c(&quot;death_city_lat&quot;, &quot;death_city_long&quot;), sep = &quot;,&quot; ,remove = FALSE) %&gt;%
+  mutate(
+      injury_city_longlat = sub(&quot;\\).*&quot;, &quot;&quot;, sub(&quot;.*\\(&quot;, &quot;&quot;, injury_city_geo))  ) %&gt;% 
+      separate(col = injury_city_longlat, into = c(&quot;injury_city_lat&quot;, &quot;injury_city_long&quot;), sep = &quot;,&quot; ,remove = FALSE) %&gt;%
+  mutate(
+      residence_city_longlat = sub(&quot;\\).*&quot;, &quot;&quot;, sub(&quot;.*\\(&quot;, &quot;&quot;, residence_city_geo))  ) %&gt;% 
+      separate(col = residence_city_longlat, into = c(&quot;residence_city_lat&quot;, &quot;residence_city_long&quot;), sep = &quot;,&quot; ,remove = FALSE) %&gt;%
+  ##dropping pre-split variables for latitude and longitude, dropping date_type because it is uninformative for this analysis 
+  select(-residence_city_longlat, -death_city_longlat, -injury_city_longlat, -residence_city_geo, -injury_city_geo, -death_city_geo, -mannerof_death, -date_type) %&gt;%
+  mutate(race = recode(race,
+                       &quot;Asian Indian&quot; = &quot;Asian&quot;,
+                       &quot;Asian, Other&quot; = &quot;Asian&quot;,
+                       &quot;Chinese&quot; = &quot;Asian&quot;,
+                       &quot;Hawaiian&quot; = &quot;Other&quot;),
+         race = na_if(race, &quot;Unknown&quot;)) </code></pre>
+<pre><code>## Parsed with column specification:
+## cols(
+##   .default = col_character(),
+##   Age = col_double()
+## )</code></pre>
+<pre><code>## See spec(...) for full column specifications.</code></pre>
+<pre class="r"><code>drug_death</code></pre>
+<pre><code>## # A tibble: 3,503 x 44
+##    id    month   day  year   age sex   race  residence_city
+##    &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;         
+##  1 16-0…     3    13  2016    30 Fema… White SANDY HOOK    
+##  2 16-0…     3    31  2016    23 Male  White RYE           
+##  3 15-0…     5    14  2015    50 Male  White DANBURY       
+##  4 16-0…     1    13  2016    29 Male  Black NEW HAVEN     
+##  5 16-0…     1    30  2016    54 Male  White MIDDLETOWN    
+##  6 16-0…    12    20  2016    32 Male  White WINDHAM       
+##  7 15-0…     6     2  2015    39 Fema… White ANSONIA       
+##  8 16-0…    10     7  2016    34 Male  White COS COB       
+##  9 16-0…     7    16  2016    27 Fema… White STRATFORD     
+## 10 17-0…    10    13  2017    25 Male  White MERIDEN       
+## # … with 3,493 more rows, and 36 more variables: residence_county &lt;chr&gt;,
+## #   residence_state &lt;chr&gt;, death_city &lt;chr&gt;, death_county &lt;chr&gt;,
+## #   location &lt;chr&gt;, locationif_other &lt;chr&gt;, descriptionof_injury &lt;chr&gt;,
+## #   injury_place &lt;chr&gt;, injury_city &lt;chr&gt;, injury_county &lt;chr&gt;,
+## #   injury_state &lt;chr&gt;, cod &lt;chr&gt;, other_significan &lt;chr&gt;, heroin &lt;chr&gt;,
+## #   cocaine &lt;chr&gt;, fentanyl &lt;chr&gt;, fentanyl_analogue &lt;chr&gt;,
+## #   oxycodone &lt;chr&gt;, oxymorphone &lt;chr&gt;, ethanol &lt;chr&gt;, hydrocodone &lt;chr&gt;,
+## #   benzodiazepine &lt;chr&gt;, methadone &lt;chr&gt;, amphet &lt;chr&gt;, tramad &lt;chr&gt;,
+## #   morphine_not_heroin &lt;chr&gt;, hydromorphone &lt;chr&gt;, other &lt;chr&gt;,
+## #   opiate_nos &lt;chr&gt;, any_opioid &lt;chr&gt;, death_city_lat &lt;chr&gt;,
+## #   death_city_long &lt;chr&gt;, injury_city_lat &lt;chr&gt;, injury_city_long &lt;chr&gt;,
+## #   residence_city_lat &lt;chr&gt;, residence_city_long &lt;chr&gt;</code></pre>
+<pre class="r"><code>CT = c(&quot;LITCHFIELD&quot;, &quot;HARTFORD&quot;, &quot;TOLLAND&quot;, &quot;NEW LONDON&quot;, &quot;MIDDLESEX&quot;, &quot;NEW HAVEN&quot;, &quot;WINDHAM&quot;, &quot;FAIRFIELD&quot;)
+
+drug_death_bin =
+  drug_death %&gt;%
+  # binarize outcome: death in hospital YES or NO
+  mutate(death_location = ifelse(location == &quot;Hospital&quot;, c(1), c(0))) %&gt;%
+  # narrow data set to relevent regression variables
+  select(death_location, age, sex, race, residence_county) %&gt;%
+  # identify out of state counties
+  mutate(new_county = ifelse(residence_county %in% CT,
+                             str_to_lower(residence_county, locale = &quot;en&quot;),
+                             &quot;out of state&quot;)) %&gt;%
+  select(-residence_county) %&gt;%
+  drop_na(death_location, race) %&gt;%
+  # create factor variables for regression
+  mutate(death_location = factor(death_location, levels = c(1, 0), labels = c(&quot;In hospital&quot;, &quot;Outside hospital&quot;)),
+        sex = factor(sex, labels = c(&quot;Male&quot;, &quot;Female&quot;, &quot;Unknown&quot;)),
+        race = factor(race, labels = c(&quot;White&quot;, &quot;Black&quot;, &quot;Hispanic, White&quot;, &quot;Asian&quot;, &quot;Other&quot;, &quot;Hispanic, Black&quot;)),
+        new_county = factor(new_county, labels = c(&quot;litchfield&quot;, &quot;hartford&quot;, &quot;tolland&quot;, &quot;new london&quot;, &quot;middlesex&quot;, &quot;new haven&quot;, &quot;windham&quot;, &quot;fairfield&quot;, &quot;out of state&quot;))
+          ) 
+
+drug_death_bin</code></pre>
+<pre><code>## # A tibble: 3,480 x 5
+##    death_location     age sex    race            new_county  
+##    &lt;fct&gt;            &lt;dbl&gt; &lt;fct&gt;  &lt;fct&gt;           &lt;fct&gt;       
+##  1 In hospital         30 Male   Hispanic, Black litchfield  
+##  2 In hospital         23 Female Hispanic, Black windham     
+##  3 Outside hospital    50 Female Hispanic, Black litchfield  
+##  4 Outside hospital    29 Female Black           middlesex   
+##  5 Outside hospital    54 Female Hispanic, Black new london  
+##  6 Outside hospital    32 Female Hispanic, Black out of state
+##  7 In hospital         39 Male   Hispanic, Black middlesex   
+##  8 Outside hospital    34 Female Hispanic, Black litchfield  
+##  9 Outside hospital    27 Male   Hispanic, Black litchfield  
+## 10 In hospital         25 Female Hispanic, Black middlesex   
+## # … with 3,470 more rows</code></pre>
+<pre class="r"><code># specify predictor variable types
+drug_death_bin %&gt;%  
+  mutate(
+    age = as.numeric(age),
+    sex = fct_infreq(sex),
+    race = fct_infreq(race),
+    new_county = fct_infreq(new_county)
+    )</code></pre>
+<pre><code>## # A tibble: 3,480 x 5
+##    death_location     age sex    race            new_county  
+##    &lt;fct&gt;            &lt;dbl&gt; &lt;fct&gt;  &lt;fct&gt;           &lt;fct&gt;       
+##  1 In hospital         30 Male   Hispanic, Black litchfield  
+##  2 In hospital         23 Female Hispanic, Black windham     
+##  3 Outside hospital    50 Female Hispanic, Black litchfield  
+##  4 Outside hospital    29 Female Black           middlesex   
+##  5 Outside hospital    54 Female Hispanic, Black new london  
+##  6 Outside hospital    32 Female Hispanic, Black out of state
+##  7 In hospital         39 Male   Hispanic, Black middlesex   
+##  8 Outside hospital    34 Female Hispanic, Black litchfield  
+##  9 Outside hospital    27 Male   Hispanic, Black litchfield  
+## 10 In hospital         25 Female Hispanic, Black middlesex   
+## # … with 3,470 more rows</code></pre>
+<pre class="r"><code># create model
+model=
+  glm(death_location ~ age + sex + race + new_county, data = drug_death_bin, family = &quot;binomial&quot;) 
+
+
+model %&gt;%
+  broom::glance()%&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="right">null.deviance</th>
+<th align="right">df.null</th>
+<th align="right">logLik</th>
+<th align="right">AIC</th>
+<th align="right">BIC</th>
+<th align="right">deviance</th>
+<th align="right">df.residual</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="right">4275.072</td>
+<td align="right">3479</td>
+<td align="right">-2096.793</td>
+<td align="right">4227.586</td>
+<td align="right">4332.217</td>
+<td align="right">4193.586</td>
+<td align="right">3463</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>model %&gt;%
+  broom::tidy()%&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">estimate</th>
+<th align="right">std.error</th>
+<th align="right">statistic</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-0.057</td>
+<td align="right">0.413</td>
+<td align="right">-0.137</td>
+<td align="right">0.891</td>
+</tr>
+<tr class="even">
+<td align="left">age</td>
+<td align="right">0.006</td>
+<td align="right">0.003</td>
+<td align="right">1.968</td>
+<td align="right">0.049</td>
+</tr>
+<tr class="odd">
+<td align="left">sexFemale</td>
+<td align="right">0.188</td>
+<td align="right">0.085</td>
+<td align="right">2.202</td>
+<td align="right">0.028</td>
+</tr>
+<tr class="even">
+<td align="left">sexUnknown</td>
+<td align="right">10.405</td>
+<td align="right">196.968</td>
+<td align="right">0.053</td>
+<td align="right">0.958</td>
+</tr>
+<tr class="odd">
+<td align="left">raceBlack</td>
+<td align="right">-0.237</td>
+<td align="right">0.408</td>
+<td align="right">-0.580</td>
+<td align="right">0.562</td>
+</tr>
+<tr class="even">
+<td align="left">raceHispanic, White</td>
+<td align="right">0.115</td>
+<td align="right">0.637</td>
+<td align="right">0.180</td>
+<td align="right">0.857</td>
+</tr>
+<tr class="odd">
+<td align="left">raceAsian</td>
+<td align="right">-0.181</td>
+<td align="right">0.405</td>
+<td align="right">-0.448</td>
+<td align="right">0.654</td>
+</tr>
+<tr class="even">
+<td align="left">raceOther</td>
+<td align="right">-0.045</td>
+<td align="right">0.833</td>
+<td align="right">-0.054</td>
+<td align="right">0.957</td>
+</tr>
+<tr class="odd">
+<td align="left">raceHispanic, Black</td>
+<td align="right">0.419</td>
+<td align="right">0.393</td>
+<td align="right">1.067</td>
+<td align="right">0.286</td>
+</tr>
+<tr class="even">
+<td align="left">new_countyhartford</td>
+<td align="right">0.404</td>
+<td align="right">0.115</td>
+<td align="right">3.495</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">new_countytolland</td>
+<td align="right">0.081</td>
+<td align="right">0.178</td>
+<td align="right">0.452</td>
+<td align="right">0.651</td>
+</tr>
+<tr class="even">
+<td align="left">new_countynew london</td>
+<td align="right">0.571</td>
+<td align="right">0.211</td>
+<td align="right">2.710</td>
+<td align="right">0.007</td>
+</tr>
+<tr class="odd">
+<td align="left">new_countymiddlesex</td>
+<td align="right">0.092</td>
+<td align="right">0.115</td>
+<td align="right">0.796</td>
+<td align="right">0.426</td>
+</tr>
+<tr class="even">
+<td align="left">new_countynew haven</td>
+<td align="right">0.186</td>
+<td align="right">0.154</td>
+<td align="right">1.211</td>
+<td align="right">0.226</td>
+</tr>
+<tr class="odd">
+<td align="left">new_countywindham</td>
+<td align="right">-0.073</td>
+<td align="right">0.220</td>
+<td align="right">-0.330</td>
+<td align="right">0.741</td>
+</tr>
+<tr class="even">
+<td align="left">new_countyfairfield</td>
+<td align="right">0.438</td>
+<td align="right">0.237</td>
+<td align="right">1.849</td>
+<td align="right">0.064</td>
+</tr>
+<tr class="odd">
+<td align="left">new_countyout of state</td>
+<td align="right">0.554</td>
+<td align="right">0.229</td>
+<td align="right">2.426</td>
+<td align="right">0.015</td>
+</tr>
+</tbody>
+</table>
+<pre class="r"><code>summary(model)</code></pre>
+<pre><code>## 
+## Call:
+## glm(formula = death_location ~ age + sex + race + new_county, 
+##     family = &quot;binomial&quot;, data = drug_death_bin)
+## 
+## Deviance Residuals: 
+##     Min       1Q   Median       3Q      Max  
+## -1.8360  -1.3649   0.7588   0.8602   1.2600  
+## 
+## Coefficients:
+##                          Estimate Std. Error z value Pr(&gt;|z|)    
+## (Intercept)             -0.056709   0.412829  -0.137 0.890740    
+## age                      0.005997   0.003047   1.968 0.049084 *  
+## sexFemale                0.188137   0.085440   2.202 0.027667 *  
+## sexUnknown              10.404661 196.967717   0.053 0.957872    
+## raceBlack               -0.236771   0.408280  -0.580 0.561966    
+## raceHispanic, White      0.114777   0.637192   0.180 0.857051    
+## raceAsian               -0.181164   0.404719  -0.448 0.654420    
+## raceOther               -0.045259   0.833020  -0.054 0.956671    
+## raceHispanic, Black      0.418701   0.392529   1.067 0.286119    
+## new_countyhartford       0.403603   0.115496   3.495 0.000475 ***
+## new_countytolland        0.080668   0.178393   0.452 0.651129    
+## new_countynew london     0.570579   0.210525   2.710 0.006723 ** 
+## new_countymiddlesex      0.091581   0.115124   0.796 0.426322    
+## new_countynew haven      0.186435   0.154007   1.211 0.226062    
+## new_countywindham       -0.072534   0.219796  -0.330 0.741397    
+## new_countyfairfield      0.437746   0.236777   1.849 0.064491 .  
+## new_countyout of state   0.554449   0.228581   2.426 0.015283 *  
+## ---
+## Signif. codes:  0 &#39;***&#39; 0.001 &#39;**&#39; 0.01 &#39;*&#39; 0.05 &#39;.&#39; 0.1 &#39; &#39; 1
+## 
+## (Dispersion parameter for binomial family taken to be 1)
+## 
+##     Null deviance: 4275.1  on 3479  degrees of freedom
+## Residual deviance: 4193.6  on 3463  degrees of freedom
+## AIC: 4227.6
+## 
+## Number of Fisher Scoring iterations: 10</code></pre>
+<pre class="r"><code># significant p = age, sexFemale, counties: Hartford, New London, Out of State
+
+model %&gt;% 
+  broom::tidy() %&gt;% 
+  mutate(OR = exp(estimate)) %&gt;%
+  select(term, log_OR = estimate, OR, p.value) %&gt;% 
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="left">term</th>
+<th align="right">log_OR</th>
+<th align="right">OR</th>
+<th align="right">p.value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">(Intercept)</td>
+<td align="right">-0.057</td>
+<td align="right">0.945</td>
+<td align="right">0.891</td>
+</tr>
+<tr class="even">
+<td align="left">age</td>
+<td align="right">0.006</td>
+<td align="right">1.006</td>
+<td align="right">0.049</td>
+</tr>
+<tr class="odd">
+<td align="left">sexFemale</td>
+<td align="right">0.188</td>
+<td align="right">1.207</td>
+<td align="right">0.028</td>
+</tr>
+<tr class="even">
+<td align="left">sexUnknown</td>
+<td align="right">10.405</td>
+<td align="right">33013.149</td>
+<td align="right">0.958</td>
+</tr>
+<tr class="odd">
+<td align="left">raceBlack</td>
+<td align="right">-0.237</td>
+<td align="right">0.789</td>
+<td align="right">0.562</td>
+</tr>
+<tr class="even">
+<td align="left">raceHispanic, White</td>
+<td align="right">0.115</td>
+<td align="right">1.122</td>
+<td align="right">0.857</td>
+</tr>
+<tr class="odd">
+<td align="left">raceAsian</td>
+<td align="right">-0.181</td>
+<td align="right">0.834</td>
+<td align="right">0.654</td>
+</tr>
+<tr class="even">
+<td align="left">raceOther</td>
+<td align="right">-0.045</td>
+<td align="right">0.956</td>
+<td align="right">0.957</td>
+</tr>
+<tr class="odd">
+<td align="left">raceHispanic, Black</td>
+<td align="right">0.419</td>
+<td align="right">1.520</td>
+<td align="right">0.286</td>
+</tr>
+<tr class="even">
+<td align="left">new_countyhartford</td>
+<td align="right">0.404</td>
+<td align="right">1.497</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="odd">
+<td align="left">new_countytolland</td>
+<td align="right">0.081</td>
+<td align="right">1.084</td>
+<td align="right">0.651</td>
+</tr>
+<tr class="even">
+<td align="left">new_countynew london</td>
+<td align="right">0.571</td>
+<td align="right">1.769</td>
+<td align="right">0.007</td>
+</tr>
+<tr class="odd">
+<td align="left">new_countymiddlesex</td>
+<td align="right">0.092</td>
+<td align="right">1.096</td>
+<td align="right">0.426</td>
+</tr>
+<tr class="even">
+<td align="left">new_countynew haven</td>
+<td align="right">0.186</td>
+<td align="right">1.205</td>
+<td align="right">0.226</td>
+</tr>
+<tr class="odd">
+<td align="left">new_countywindham</td>
+<td align="right">-0.073</td>
+<td align="right">0.930</td>
+<td align="right">0.741</td>
+</tr>
+<tr class="even">
+<td align="left">new_countyfairfield</td>
+<td align="right">0.438</td>
+<td align="right">1.549</td>
+<td align="right">0.064</td>
+</tr>
+<tr class="odd">
+<td align="left">new_countyout of state</td>
+<td align="right">0.554</td>
+<td align="right">1.741</td>
+<td align="right">0.015</td>
+</tr>
+</tbody>
+</table>
+<div id="analysis" class="section level1">
+<h1>Analysis</h1>
+<p>In order to understand the likelihood of a drug related death occuring in the hospital versus not in the hospital, we binarized the variable <code>death_location</code> as the outcome (1 = In the hospital, 0 = Not in the hospital). For this logistic regression analysis we used a generlized logistic model with the predictors age, sex, race and county of residence. <code>Age</code> was treated as a continuous variable. <code>Sex</code> was categorical (Male, Female, and Unknown) with Male as the reference category based on frequency. <code>Race</code> was categorical with White, Black, Hispanic White, Asian, Other, Hispanic Black; White was the reference category based on frequency and NAs were dropped pre-analysis (n= 16). Finally the 8 <code>Counties</code> of CT were converted to factor variables with all other counties being converted to “out of state” with Litchfield Country as the reference variable based on frequency, NAs were dropped (n= 7).</p>
+<p>The significant variables in the model (p-value &lt; 0.05) were age, Female, Hartford and New London Counties and the “Out of State” category. TERM OR P-VALUE Odds of dying in the hospital vs. outside the hospital age 1.006 0.049 (for every 1-year increase in age) female 1.207 0.028 (vs. Male) Hartford 1.497 0.000 (vs. Litchfield) New London 1.769 0.007 &quot; Out of State 1.741 0.015 &quot;</p>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- tabsets -->
+
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+
+$(document).ready(function () {
+  $('.tabset-dropdown > .nav-tabs > li').click(function () {
+    $(this).parent().toggleClass('nav-tabs-open')
+  });
+});
+</script>
+
+<!-- code folding -->
+
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>

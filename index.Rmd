@@ -5,7 +5,6 @@ output:
     toc_float: true
 ---
 
-![](image1.jpeg)
 
 # **Assessment of Drug-Related Deaths in Connecticut**
 

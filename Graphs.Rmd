@@ -51,7 +51,7 @@ drug_death =
   
 ```
 
-Column {data-width=650}
+Column {data-width=500}
 -----------------------------------------------------------------------
 
 ### Chart A
@@ -91,7 +91,7 @@ drug_death %>%
   geom_line()
 ```
 
-Column {data-width=350}
+Column {data-width=500}
 -----------------------------------------------------------------------
 
 ### Chart C
@@ -130,5 +130,57 @@ drug_death %>%
   labs(title = "Sex distribution over race")
 ```
 
+### Chart D
 
+```{r}
+drug_corr = 
+  drug_death %>% 
+  filter(
+    race %in% c("White","Black", "Hispanic, White", "Asian", "Hispanic, Black", "Other"),
+    sex %in% c("Female", "Male")) %>% 
+  select(age, heroin:other) %>% 
+  NAer() %>% 
+  pivot_longer(
+    heroin:other,
+    names_to = "drug",
+    values_to = "flag"
+  ) %>% 
+  mutate(
+    flag = as.numeric(ifelse(flag == "Y", "1", "0"))
+  ) %>% 
+  mutate(
+    drug = ifelse(drug %in% c("heroin", "fentanyl", "cocaine", "ethanol", "benzodiazepine"), drug, "other")
+  ) %>% 
+  group_by(age, drug) %>% 
+  mutate(
+    n = sum(flag)
+  ) %>% 
+  select(-flag) %>% 
+  unique() %>% 
+  ungroup() %>% 
+  group_by(drug) %>% 
+  mutate(
+    pctn = n / sum(n)
+  ) %>%
+  select(-n) %>% 
+  arrange(drug, age)
+
+xyplot(
+  pctn ~ age | drug,
+  data = data.frame(drug_corr),
+  pch=20 , 
+  type = c("p", "smooth"),
+  col.line = "orange",
+  lwd = 2,
+  cex=1.5 , 
+  col=rgb(0.2,0.4,0.8,0.5),
+  xlab = "Age (year)",
+  ylab = "% number of death",
+  main = "Age of death across different drug types",
+  xlim = c(0, 85),
+  ylim = c(-0.001, 0.045)
+  )
+
+
+```
 

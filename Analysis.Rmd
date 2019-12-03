@@ -6,6 +6,65 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
+library(tidyverse)
+library(viridis)
+library(leaflet)
+library(dplyr)
+library(kableExtra)
+options(knitr.table.format = "html")
+library(DT)
+library(plotly)
+library(qdap)
+library(fmsb)
+library(scales)
+library(lattice)
+knitr::opts_chunk$set(
+	echo = TRUE,
+	warning = FALSE,
+	fig.width = 10, 
+  fig.height = 6,
+  out.width = "90%"
+)
+options(
+  ggplot2.continuous.colour = "viridis",
+  ggplot2.continuous.fill = "viridis"
+)
+scale_colour_discrete = scale_colour_viridis_d
+scale_fill_discrete = scale_fill_viridis_d
+theme_set(theme_minimal() + theme(legend.position = "bottom"))
+
+```
+
+
+```{r, include=FALSE}
+# from data.gov
+drug_death=
+  read_csv("./data/Accidental_Drug_Related_Deaths_2012-2018.csv") %>%
+  janitor::clean_names() %>%
+  separate(date, into = c("date", "time"), sep = 11) %>%
+  select(-time) %>%
+  separate(date, into = c("month", "day", "year"), sep = "/", convert = TRUE, remove = FALSE) %>%
+  mutate(
+     date = as.Date(date, format = '%m/%d/%Y'), 
+     death_city_longlat = sub("\\).*", "", sub(".*\\(", "", death_city_geo))  ) %>% 
+  separate(col = death_city_longlat, into = c("death_city_lat", "death_city_long"), sep = "," ,remove = FALSE) %>%
+  mutate(
+      injury_city_longlat = sub("\\).*", "", sub(".*\\(", "", injury_city_geo))  ) %>% 
+      separate(col = injury_city_longlat, into = c("injury_city_lat", "injury_city_long"), sep = "," ,remove = FALSE) %>%
+  mutate(
+      residence_city_longlat = sub("\\).*", "", sub(".*\\(", "", residence_city_geo))  ) %>% 
+      separate(col = residence_city_longlat, into = c("residence_city_lat", "residence_city_long"), sep = "," ,remove = FALSE) %>%
+  ##dropping pre-split variables for latitude and longitude, dropping date_type because it is uninformative for this analysis 
+  select(-residence_city_longlat, -death_city_longlat, -injury_city_longlat, -residence_city_geo, -injury_city_geo, -death_city_geo, -mannerof_death, -date_type) %>%
+  mutate(race = recode(race,
+                       "Asian Indian" = "Asian",
+                       "Asian, Other" = "Asian",
+                       "Chinese" = "Asian",
+                       "Hawaiian" = "Other"),
+         race = na_if(race, "Unknown")) 
+  
+```
 ```
 
 ## **Background** 
@@ -56,6 +115,72 @@ In order to address our initial research questions, we were interested in specif
 
 * 
 
+
+### **Spider-plot**
+
+```{r, echo=FALSE}
+drug_spider = 
+drug_death %>% 
+  select(race, heroin:other) %>%
+  filter(
+    race %in% c("White","Black", "Hispanic, White", "Asian", "Hispanic, Black", "Other")
+  ) %>% 
+  NAer() %>% 
+  pivot_longer(
+    heroin:other,
+    names_to = "drug",
+    values_to = "flag"
+  ) %>% 
+  mutate(
+    flag = as.numeric(ifelse(flag == "Y", "1", "0"))
+  ) %>% 
+  mutate(
+    drug = ifelse(drug %in% c("heroin", "fentanyl", "cocaine", "ethanol", "benzodiazepine"), drug, "other")
+  ) %>% 
+  group_by(race, drug) %>% 
+  mutate(n = sum(flag)) %>% 
+  select(-flag) %>% 
+  unique() %>% 
+  arrange(race, desc(n)) %>% 
+  ungroup() %>% 
+  group_by(race) %>% 
+  mutate(
+    pctn = n/sum(n)
+  ) %>% 
+  select(-n) %>% 
+  pivot_wider(
+    names_from = "drug",
+    values_from = "pctn"
+  ) %>% 
+  ungroup()
+
+
+rownames(drug_spider) = drug_spider$race
+drug_spider = drug_spider %>% select(-race)
+drug_spider = rbind(rep(0.35,6) , rep(0,6) , drug_spider)
+
+
+
+coul = brewer.pal(6, "Set1")
+colors_border = coul
+colors_in = alpha(coul,0.85)
+
+
+radarchart(drug_spider,
+           axistype = 0,
+           pcol=colors_border,
+           plwd = 1.9,
+           plty = 1,
+           cglcol="grey", 
+           cglty=1, 
+           axislabcol="black", 
+           cglwd=0.8,
+           vlcex = 0.8
+           )
+
+legend(x=1.1, y=1.52, legend = c(rownames(drug_spider))[3:8], bty = "n", pch=20 , col=colors_in , text.col = "black", cex=0.8, pt.cex=1)
+
+```
 
 
 

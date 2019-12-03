@@ -19,6 +19,7 @@ library(fmsb)
 library(scales)
 library(lattice)
 library(flexdashboard)
+library(qdap)
 
 ```
 
@@ -75,9 +76,6 @@ drug_death %>%
   ylab("Number of death each day")
 ```
 
-Column {data-width=350}
------------------------------------------------------------------------
-
 ### Chart B
 
 ```{r, warning=FALSE}
@@ -92,6 +90,9 @@ drug_death %>%
   geom_point() +
   geom_line()
 ```
+
+Column {data-width=350}
+-----------------------------------------------------------------------
 
 ### Chart C
 
@@ -128,4 +129,6 @@ drug_death %>%
   ylab("Count") +
   labs(title = "Sex distribution over race")
 ```
+
+
 

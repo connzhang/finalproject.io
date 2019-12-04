@@ -39,7 +39,7 @@ theme_set(theme_minimal() + theme(legend.position = "bottom"))
 
 ```{r, include=FALSE}
 # from data.gov
-drug_death=
+drug_death =
   read_csv("./data/Accidental_Drug_Related_Deaths_2012-2018.csv") %>%
   janitor::clean_names() %>%
   separate(date, into = c("date", "time"), sep = 11) %>%
@@ -67,55 +67,55 @@ drug_death=
 ```
 
 ## **Background** 
-The rate of drug related deaths in Connecticut is currently higher than the national average and has continued to steadily increase. While there have been a sigficicant number of initiatives implemented to reduce drug misuse in recent years, it is important to understand the demographic and geogrphaic attributes underlying this public health issue in order to effectively reduce drug-related deaths in vulnerable populations. 
+The rate of drug-related deaths in Connecticut is currently higher than the national average and has continued to steadily increase. While there have been a significant number of initiatives implemented to reduce drug misuse in recent years, it is important to understand the demographic and geographic attributes underlying this public health issue to effectively reduce drug-related deaths in vulnerable populations. 
 
 ## **Initial Questions**
-* What are demographic characteristics of individuals who experienced a drug-related death in Connecticut? 
+* What are the demographic characteristics of individuals who experienced a drug-related death in Connecticut? 
 * Where are these deaths mainly occurring within the state? 
 * Are there seasonal variations in deaths across each year? 
 * What specific drug types have been attributed to the increase in drug-related deaths? 
 
 ## **Data** 
-In order to address our initial research questions, we were interested in specific variables within the [Accidental Drug Related Deaths](https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015) dataset after tidying and cleaning. Variables used included attributes and characterstics of individuals at time of death, details of location of death, and type of drug used prior to death.
+To address our initial research questions, we were interested in specific variables within the [Accidental Drug Related Deaths](https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015) dataset after tidying and cleaning. Variables used included attributes and characteristics of individuals at the time of death, details of the location of death, and type of drug used before death.
 
 *Below is a list of variables used in alphabetical order:*
 
-`age`: Age of individual at death
+`age`:  Age of individual at death
 
 `death_city_long` and `death_city_lat`: Location of death by longitude and latitude
 
-`drug`: Type of drug which include heroin, fentanyl, cocaine, eethanol, benzodiazepine, and other 
+`drug`: Type of drug which includes heroin, fentanyl, cocaine, ethanol, benzodiazepine, and other 
 
-`location`: Location of death categorized by location type including nursing home, hsopice, or convalescent home and residence, and hospital, and other. 
+`location`: Location of death categorized by location type including nursing home, hospice, or convalescent home and residence, and hospital, and others.  
 
-`month` and `year`: Details of date of death
+`month` and `year`: Details of the date of death
 
 `race`: Race of individual which include White, Black, Hispanic White, Asian, Hispanic Black, and other
 
-`sex`: Sex of individual which include male, female, or unknown 
-
+`sex`:  Sex of individual which include male, female, or unknown 
 
 
 
 ## **Exploratory Analysis and Findings** 
-### Temporal analysis of death from 2012-2018
+
+### Temporal analysis of deaths from 2012-2018
 
 * Chart A shows that there is a growing number of Drug-Related Death in Connecticut from 2012 - 2018.
-* Specifically, among all race, the white has the most progressive growth of Drug-Related Death (in exponential trend), compared to other race.
-* Interestly, there is a obvious drop of drug-related death in Connectict at 2017 among all race group and an rebound of drug-related death after 2018 in all race group, except white.
+* Specifically, among all races, the white has the most progressive growth of Drug-Related Death (in exponential trend), compared to other races.
+* Interestingly, there is an obvious drop of drug-related death in Connecticut in 2017 among all race groups and a rebound of drug-related death after 2018 in all race groups, except white.
 
 ### Distribution of death by race, gender, age
 
-* Chart B shows the distribution of age in drug-related death. From the graph we can see that most of the drug-related death happens at age between 25 and 50.
-* Chart C shows the sex distribution in drug-related death. From the graph wecan see that male always outnumber female in number of death across all race group.
-* Chart C also shows that there exists an distinct variation in drug-related death across gender specifically among white. 
+* Chart B shows the distribution of age in drug-related deaths. From the graph, we can see that most of the drug-related deaths happen at the age between 25 and 50.
+* Chart C shows the sex distribution in drug-related deaths. From the graph, we can see that males always outnumber females in the number of deaths across all race groups.
+* Chart C also shows that there exists a distinct variation in drug-related deaths across gender specifically among white. 
 
 ### Age of death attributed to each drug type 
 
-* Chart D shows the distribution of age of death by different drug types.From the chart, we can see that:
-* Fentanyl and Heroin frequently used by younger age group (below 25 years old);
-* Cocaine and Ethanol are widely used by older age group (main 40 to 45 years old);
-* There is wide age variation in Benzodiazepine-related death.
+* Chart D shows the distribution of age of death by different drug types. From the chart, we can see that:
+* Fentanyl and Heroin are frequently used by younger age group (below 25 years old)
+* Cocaine and Ethanol are widely used by older age group (40 to 45 years old)
+* There is a wide age variation in Benzodiazepine-related death.
 
 ### Location of death across Connecticut
 
@@ -175,30 +175,31 @@ colors_in = alpha(coul,0.85)
 
 radarchart(drug_spider,
            axistype = 0,
-           pcol=colors_border,
+           pcol = colors_border,
            plwd = 1.9,
            plty = 1,
-           cglcol="grey", 
-           cglty=1, 
-           axislabcol="black", 
-           cglwd=0.8,
+           cglcol = "grey", 
+           cglty = 1, 
+           axislabcol = "black", 
+           cglwd = 0.8,
            vlcex = 0.8
            )
 
-legend(x=1.3, y=1.3, legend = c(rownames(drug_spider))[3:8], bty = "n", pch=20 , col=colors_in , text.col = "black", cex=0.8, pt.cex=1)
+legend(x = 1.3, y = 1.3, legend = c(rownames(drug_spider))[3:8], bty = "n", pch = 20 , col = colors_in , text.col = "black", cex = 0.8, pt.cex = 1)
 
 ```
 
-* The spider plot above shows the different composition of drug use in different race group. We can see:
-* Hispanic-Black has proportion of Fenranyl-related death, as compared to other race groups.
-* Both Asian and Hispanic-White have high proportion of Heroin-related death, as compared to other race groups.
-* Black and Other race groups have high proportion of Cocaine-related death, as compared to other race groups.
-* White has high proportion of Heroin-related and Other-drug-relatd death, as compared to other race groups.
+* The spider plot above shows the different components of drug use in different race groups. We can see:
+* Hispanic-Black has a higher proportion of Fentanyl-related death, as compared to other race groups.
+* Both Asian and Hispanic-White have a high proportion of Heroin-related death, as compared to other race groups.
+* Black and Other race groups have a high proportion of Cocaine-related death, as compared to other race groups.
+* White has a high proportion of Heroin-related and Other-drug-related death, as compared to other race groups.
 
 
 
 ## **Discussion**
+
 * The possible reason for the decline in drug-related death in Connecticut in all race group at 2017 and the rebound in drug-related death in all race group, except White, after 2018;
 * The contributors to the different usage pattern (the type of drug, the age of drug-related death) in different race group;
-* Suggestions for modes of intervention, how findings could impact understanding of drug-overdose deaths;
+* Suggestions for modes of intervention, how findings could impact the understanding of drug-overdose deaths;
 * Limitations included: not knowing what 'other' drugs included which could impact analysis.

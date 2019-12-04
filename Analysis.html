@@ -292,6 +292,12 @@ $(document).ready(function () {
      
   </a>
 </li>
+<li>
+  <a href="https://www.youtube.com">
+    <span class="fa fa-video-camera"></span>
+     
+  </a>
+</li>
       </ul>
     </div><!--/.nav-collapse -->
   </div><!--/.container -->
@@ -309,12 +315,12 @@ $(document).ready(function () {
 
 <div id="background" class="section level2">
 <h2><strong>Background</strong></h2>
-<p>The rate of drug related deaths in Connecticut is currently higher than the national average and has continued to steadily increase. While there have been a sigficicant number of initiatives implemented to reduce drug misuse in recent years, it is important to understand the demographic and geogrphaic attributes underlying this public health issue in order to effectively reduce drug-related deaths in vulnerable populations.</p>
+<p>The rate of drug-related deaths in Connecticut is currently higher than the national average and has continued to steadily increase. While there have been a significant number of initiatives implemented to reduce drug misuse in recent years, it is important to understand the demographic and geographic attributes underlying this public health issue to effectively reduce drug-related deaths in vulnerable populations.</p>
 </div>
 <div id="initial-questions" class="section level2">
 <h2><strong>Initial Questions</strong></h2>
 <ul>
-<li>What are demographic characteristics of individuals who experienced a drug-related death in Connecticut?</li>
+<li>What are the demographic characteristics of individuals who experienced a drug-related death in Connecticut?</li>
 <li>Where are these deaths mainly occurring within the state?</li>
 <li>Are there seasonal variations in deaths across each year?</li>
 <li>What specific drug types have been attributed to the increase in drug-related deaths?</li>
@@ -322,41 +328,41 @@ $(document).ready(function () {
 </div>
 <div id="data" class="section level2">
 <h2><strong>Data</strong></h2>
-<p>In order to address our initial research questions, we were interested in specific variables within the <a href="https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015">Accidental Drug Related Deaths</a> dataset after tidying and cleaning. Variables used included attributes and characterstics of individuals at time of death, details of location of death, and type of drug used prior to death.</p>
+<p>To address our initial research questions, we were interested in specific variables within the <a href="https://catalog.data.gov/dataset/accidental-drug-related-deaths-january-2012-sept-2015">Accidental Drug Related Deaths</a> dataset after tidying and cleaning. Variables used included attributes and characteristics of individuals at the time of death, details of the location of death, and type of drug used before death.</p>
 <p><em>Below is a list of variables used in alphabetical order:</em></p>
 <p><code>age</code>: Age of individual at death</p>
 <p><code>death_city_long</code> and <code>death_city_lat</code>: Location of death by longitude and latitude</p>
-<p><code>drug</code>: Type of drug which include heroin, fentanyl, cocaine, eethanol, benzodiazepine, and other</p>
-<p><code>location</code>: Location of death categorized by location type including nursing home, hsopice, or convalescent home and residence, and hospital, and other.</p>
-<p><code>month</code> and <code>year</code>: Details of date of death</p>
+<p><code>drug</code>: Type of drug which includes heroin, fentanyl, cocaine, ethanol, benzodiazepine, and other</p>
+<p><code>location</code>: Location of death categorized by location type including nursing home, hospice, or convalescent home and residence, and hospital, and others.</p>
+<p><code>month</code> and <code>year</code>: Details of the date of death</p>
 <p><code>race</code>: Race of individual which include White, Black, Hispanic White, Asian, Hispanic Black, and other</p>
 <p><code>sex</code>: Sex of individual which include male, female, or unknown</p>
 </div>
 <div id="exploratory-analysis-and-findings" class="section level2">
 <h2><strong>Exploratory Analysis and Findings</strong></h2>
-<div id="temporal-analysis-of-death-from-2012-2018" class="section level3">
-<h3>Temporal analysis of death from 2012-2018</h3>
+<div id="temporal-analysis-of-deaths-from-2012-2018" class="section level3">
+<h3>Temporal analysis of deaths from 2012-2018</h3>
 <ul>
 <li>Chart A shows that there is a growing number of Drug-Related Death in Connecticut from 2012 - 2018.</li>
-<li>Specifically, among all race, the white has the most progressive growth of Drug-Related Death (in exponential trend), compared to other race.</li>
-<li>Interestly, there is a obvious drop of drug-related death in Connectict at 2017 among all race group and an rebound of drug-related death after 2018 in all race group, except white.</li>
+<li>Specifically, among all races, the white has the most progressive growth of Drug-Related Death (in exponential trend), compared to other races.</li>
+<li>Interestingly, there is an obvious drop of drug-related death in Connecticut in 2017 among all race groups and a rebound of drug-related death after 2018 in all race groups, except white.</li>
 </ul>
 </div>
 <div id="distribution-of-death-by-race-gender-age" class="section level3">
 <h3>Distribution of death by race, gender, age</h3>
 <ul>
-<li>Chart B shows the distribution of age in drug-related death. From the graph we can see that most of the drug-related death happens at age between 25 and 50.</li>
-<li>Chart C shows the sex distribution in drug-related death. From the graph wecan see that male always outnumber female in number of death across all race group.</li>
-<li>Chart C also shows that there exists an distinct variation in drug-related death across gender specifically among white.</li>
+<li>Chart B shows the distribution of age in drug-related deaths. From the graph, we can see that most of the drug-related deaths happen at the age between 25 and 50.</li>
+<li>Chart C shows the sex distribution in drug-related deaths. From the graph, we can see that males always outnumber females in the number of deaths across all race groups.</li>
+<li>Chart C also shows that there exists a distinct variation in drug-related deaths across gender specifically among white.</li>
 </ul>
 </div>
 <div id="age-of-death-attributed-to-each-drug-type" class="section level3">
 <h3>Age of death attributed to each drug type</h3>
 <ul>
-<li>Chart D shows the distribution of age of death by different drug types.From the chart, we can see that:</li>
-<li>Fentanyl and Heroin frequently used by younger age group (below 25 years old);</li>
-<li>Cocaine and Ethanol are widely used by older age group (main 40 to 45 years old);</li>
-<li>There is wide age variation in Benzodiazepine-related death.</li>
+<li>Chart D shows the distribution of age of death by different drug types. From the chart, we can see that:</li>
+<li>Fentanyl and Heroin are frequently used by younger age group (below 25 years old)</li>
+<li>Cocaine and Ethanol are widely used by older age group (40 to 45 years old)</li>
+<li>There is a wide age variation in Benzodiazepine-related death.</li>
 </ul>
 </div>
 <div id="location-of-death-across-connecticut" class="section level3">
@@ -366,11 +372,11 @@ $(document).ready(function () {
 <h3><strong>Spider-plot</strong></h3>
 <p><img src="Analysis_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
 <ul>
-<li>The spider plot above shows the different composition of drug use in different race group. We can see:</li>
-<li>Hispanic-Black has proportion of Fenranyl-related death, as compared to other race groups.</li>
-<li>Both Asian and Hispanic-White have high proportion of Heroin-related death, as compared to other race groups.</li>
-<li>Black and Other race groups have high proportion of Cocaine-related death, as compared to other race groups.</li>
-<li>White has high proportion of Heroin-related and Other-drug-relatd death, as compared to other race groups.</li>
+<li>The spider plot above shows the different components of drug use in different race groups. We can see:</li>
+<li>Hispanic-Black has a higher proportion of Fentanyl-related death, as compared to other race groups.</li>
+<li>Both Asian and Hispanic-White have a high proportion of Heroin-related death, as compared to other race groups.</li>
+<li>Black and Other race groups have a high proportion of Cocaine-related death, as compared to other race groups.</li>
+<li>White has a high proportion of Heroin-related and Other-drug-related death, as compared to other race groups.</li>
 </ul>
 </div>
 </div>
@@ -379,7 +385,7 @@ $(document).ready(function () {
 <ul>
 <li>The possible reason for the decline in drug-related death in Connecticut in all race group at 2017 and the rebound in drug-related death in all race group, except White, after 2018;</li>
 <li>The contributors to the different usage pattern (the type of drug, the age of drug-related death) in different race group;</li>
-<li>Suggestions for modes of intervention, how findings could impact understanding of drug-overdose deaths;</li>
+<li>Suggestions for modes of intervention, how findings could impact the understanding of drug-overdose deaths;</li>
 <li>Limitations included: not knowing what ‘other’ drugs included which could impact analysis.</li>
 </ul>
 </div>

@@ -11,6 +11,8 @@ navbar:
       href: Analysis.html
     - icon: fa-github fa-lg
       href: https://github.com/connzhang/finalproject.io
+    - icon: fa-video-camera
+      href: https://www.youtube.com     
       
 output:
   html_document:

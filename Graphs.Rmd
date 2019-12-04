@@ -71,7 +71,7 @@ drug_death %>%
     legend.position = "right",
     plot.title = element_text(size = 14)
   ) +
-  ggtitle("A Line chart of number of death over time") +
+  ggtitle("Number of deaths over time") +
   xlab("year") +
   ylab("Number of death each day")
 ```
@@ -88,7 +88,8 @@ drug_death %>%
     aes(x = age, y = n, color = race)
   ) +
   geom_point() +
-  geom_line()
+  geom_line() +
+  ggtitle("Age distribution of drug related deaths")
 ```
 
 Column {data-width=500}
@@ -127,7 +128,7 @@ drug_death %>%
   ) +
   xlab("") +
   ylab("Count") +
-  labs(title = "Sex distribution over race")
+  labs(title = "Drug related deaths by Sex and Race")
 ```
 
 ### Chart D
@@ -168,15 +169,15 @@ drug_corr =
 xyplot(
   pctn ~ age | drug,
   data = data.frame(drug_corr),
-  pch=20 , 
+  pch = 20 , 
   type = c("p", "smooth"),
   col.line = "orange",
   lwd = 2,
-  cex=1.5 , 
-  col=rgb(0.2,0.4,0.8,0.5),
+  cex = 1.5 , 
+  col = rgb(0.2,0.4,0.8,0.5),
   xlab = "Age (year)",
   ylab = "% number of death",
-  main = "Age of death across different drug types",
+  main = "Age at the time of death across different drug types",
   xlim = c(0, 85),
   ylim = c(-0.001, 0.045)
   )

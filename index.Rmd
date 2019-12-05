@@ -25,10 +25,10 @@ For this assessment, the [Accidental Drug Related Deaths 2012-2018](https://cata
 
 **Visualizations**: Graphs depicting demographic and geographic correlates of drug-Related Deaths in Connecticut
 
+**Map of Drug Related Deaths**: Maps depicting the distribution of deaths at different location types 
+
 **Project Report**: Report describing the findings from the data analysis and visualizations
 
-**Screencast**
-
-The screencast added [here]() provides a brief overview of our website
+**Screencast**: The screencast added [here]() provides a brief overview of our website
 
 **Contributers: Connie Zhang, Laura Lynch, Rachel Crowley, Ekta Chaudhary, Tianna Ouyang**

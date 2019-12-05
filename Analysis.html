@@ -366,7 +366,7 @@ $(document).ready(function () {
 </ul>
 </div>
 <div id="spider-plot" class="section level3">
-<h3><strong>Spider-plot</strong></h3>
+<h3>Spider-plot</h3>
 <p><img src="Analysis_files/figure-html/unnamed-chunk-2-1.png" width="90%" /></p>
 <ul>
 <li>The spider plot above shows the different components of drug use in different race groups. We can see:</li>
@@ -382,9 +382,294 @@ $(document).ready(function () {
 <li>When examining the distribution of deaths at different location types using map visualization, the large majority of death counts are found within personal residences and locations labeled as “other”. Other locations range from public spaces such as restaurants, hotels, and outside land plots, as well as residences of parents or friends. Across all location types, the highest distribution of deaths is found in Hartford, CT. The highest death count, 607 deaths, is found among residences in Hartford, CT. In addition, the highest distribution of residence deaths are found along major highways near or within the following additional cities: New Haven, Waterbury, Norwich, and Bridgeport. Similarly, deaths at other locations are mainly concentrated within Hartford, New Haven, Waterbury, Norwich, and Bridgeport. The highest number of deaths at other locations are found near Hartford with a death count of 238 and near New Haven with a death count of 195. For the distribution of deaths at hospice, nursing homes, and convalescent homes, only five death counts were recorded. Two of these deaths were in Hartford, one death in Waterbury, one death in Wallingford, and one death in New Haven. Lastly, 34 deaths were reported at hospitals in CT. Single death counts at hospitals are distributed across the state, with the highest death count of 4 deaths occurring at hospitals near Hartford, CT.</li>
 </ul>
 </div>
-<div id="regression-part" class="section level3">
-<h3>Regression part</h3>
+<div id="regression-analysis" class="section level3">
+<h3><strong>Regression Analysis</strong></h3>
+<pre class="r"><code># specify predictor variable types and set reference categories by frequency
+drug_death_bin = 
+drug_death_bin %&gt;%  
+  mutate(
+    age = as.numeric(age),
+    sex = fct_infreq(sex),
+    race = fct_infreq(race),
+    new_county = fct_infreq(new_county)
+    )
+
+# logistic regression model
+model=
+  glm(death_location ~ age + sex + race + new_county, data = drug_death_bin, family = &quot;binomial&quot;)</code></pre>
+<pre class="r"><code># all ORs and betas from the model
+model %&gt;%
+  broom::tidy() %&gt;%
+  mutate(OR = exp(estimate)) %&gt;%
+  select(term, log_OR = estimate, OR, p.value) %&gt;%
+  knitr::kable(digits = 3)</code></pre>
+<table>
+<thead>
+<tr>
+<th style="text-align:left;">
+term
+</th>
+<th style="text-align:right;">
+log_OR
+</th>
+<th style="text-align:right;">
+OR
+</th>
+<th style="text-align:right;">
+p.value
+</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:left;">
+(Intercept)
+</td>
+<td style="text-align:right;">
+0.954
+</td>
+<td style="text-align:right;">
+2.595
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+age
+</td>
+<td style="text-align:right;">
+0.006
+</td>
+<td style="text-align:right;">
+1.006
+</td>
+<td style="text-align:right;">
+0.049
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sexMale
+</td>
+<td style="text-align:right;">
+-0.188
+</td>
+<td style="text-align:right;">
+0.829
+</td>
+<td style="text-align:right;">
+0.028
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+sexUnknown
+</td>
+<td style="text-align:right;">
+10.217
+</td>
+<td style="text-align:right;">
+27351.427
+</td>
+<td style="text-align:right;">
+0.959
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+raceAsian
+</td>
+<td style="text-align:right;">
+-0.600
+</td>
+<td style="text-align:right;">
+0.549
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+raceBlack
+</td>
+<td style="text-align:right;">
+-0.655
+</td>
+<td style="text-align:right;">
+0.519
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+raceWhite
+</td>
+<td style="text-align:right;">
+-0.419
+</td>
+<td style="text-align:right;">
+0.658
+</td>
+<td style="text-align:right;">
+0.286
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+raceHispanic, White
+</td>
+<td style="text-align:right;">
+-0.304
+</td>
+<td style="text-align:right;">
+0.738
+</td>
+<td style="text-align:right;">
+0.548
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+raceOther
+</td>
+<td style="text-align:right;">
+-0.464
+</td>
+<td style="text-align:right;">
+0.629
+</td>
+<td style="text-align:right;">
+0.529
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+new_countymiddlesex
+</td>
+<td style="text-align:right;">
+-0.312
+</td>
+<td style="text-align:right;">
+0.732
+</td>
+<td style="text-align:right;">
+0.002
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+new_countylitchfield
+</td>
+<td style="text-align:right;">
+-0.404
+</td>
+<td style="text-align:right;">
+0.668
+</td>
+<td style="text-align:right;">
+0.000
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+new_countynew haven
+</td>
+<td style="text-align:right;">
+-0.217
+</td>
+<td style="text-align:right;">
+0.805
+</td>
+<td style="text-align:right;">
+0.133
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+new_countytolland
+</td>
+<td style="text-align:right;">
+-0.323
+</td>
+<td style="text-align:right;">
+0.724
+</td>
+<td style="text-align:right;">
+0.058
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+new_countynew london
+</td>
+<td style="text-align:right;">
+0.167
+</td>
+<td style="text-align:right;">
+1.182
+</td>
+<td style="text-align:right;">
+0.412
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+new_countyout of state
+</td>
+<td style="text-align:right;">
+0.151
+</td>
+<td style="text-align:right;">
+1.163
+</td>
+<td style="text-align:right;">
+0.497
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+new_countyfairfield
+</td>
+<td style="text-align:right;">
+0.034
+</td>
+<td style="text-align:right;">
+1.035
+</td>
+<td style="text-align:right;">
+0.882
+</td>
+</tr>
+<tr>
+<td style="text-align:left;">
+new_countywindham
+</td>
+<td style="text-align:right;">
+-0.476
+</td>
+<td style="text-align:right;">
+0.621
+</td>
+<td style="text-align:right;">
+0.026
+</td>
+</tr>
+</tbody>
+</table>
 </div>
+</div>
+<div id="logistic-regression-model-and-covariate-of-interest" class="section level2">
+<h2>Logistic Regression Model and Covariate of Interest</h2>
+<p>In order to understand the likelihood of a drug related death occuring in the hospital versus not in the hospital, we binarized the variable <code>death_location</code> as the outcome (1 = In the hospital, 0 = Not in the hospital). For this logistic regression analysis we used a generlized logistic model with the predictors age, sex, race and county of residence. <code>Age</code> was treated as a continuous variable. <code>Sex</code> was categorical (Male, Female, and Unknown) with Male as the reference category based on frequency. <code>Race</code> was categorical with White, Black, Hispanic White, Asian, Other, Hispanic Black; White was the reference category based on frequency and NAs were dropped pre-analysis (n= 16). Finally the 8 <code>Counties</code> of CT were converted to factor variables with all other counties being converted to “out of state” with Litchfield Country as the reference variable based on frequency, NAs were dropped (n= 7).</p>
+</div>
+<div id="significant-results-from-the-logistic-regression-model" class="section level2">
+<h2>Significant Results from the Logistic Regression Model</h2>
+<p>The significant variables in the model (p-value &lt; 0.05) were age, Female, Hartford and New London Counties and the “Out of State” category.The odds of dying in the hospital from an overdose decrease by 0.05 for every 1-year increase in age. The odds of dying in the hospital as a female are 1.2 times the odds for men controlling for other covariates. Based on location the odds of dying in the hospital are 1.5 in Hartford, 1.8 in New London and 1.7 for out of state residentess compared to Litchfield county and accounting for other covariates.</p>
 </div>
 <div id="discussion" class="section level2">
 <h2><strong>Discussion</strong></h2>

@@ -128,7 +128,7 @@ drug_death %>%
   ) +
   xlab("") +
   ylab("Count") +
-  labs(title = "Drug related deaths by Race across Females(green) & Males (Red)")
+  labs(title = "Drug related deaths by sex (Females:green & Males:Red)")
 ```
 
 ### Chart D

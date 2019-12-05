@@ -303,9 +303,11 @@ The significant variables in the model (p-value < 0.05) were  age, Female, Hartf
 
 
 
-## **Discussion**
+## **Discussion and Further Questions to Consider**
 
-* The possible reason for the decline in drug-related death in Connecticut in all race group at 2017 and the rebound in drug-related death in all race group, except White, after 2018;
-* The contributors to the different usage pattern (the type of drug, the age of drug-related death) in different race group;
-* Suggestions for modes of intervention, how findings could impact the understanding of drug-overdose deaths;
-* Limitations included: not knowing what 'other' drugs included which could impact analysis.
+Through this assesment of accidental drug-related deaths within the state of Connecticut, we highlighted multiple points of interest that could then be utilized for potential intervention or additional analyses. Significant findings to further consider as research questions include but are not limited to: 
+
+* What are possible reasons, if any, for the small dip in drug-related deaths in Connecticut in all races group in 2017? 
+* Are there social determinants or availability factors that contribute to the different usage patterns (the type of drug, the age of drug-related death) across race groups? 
+* Could emergency response professionals utilize the maps to create better protocol to reduce instances of death upon arrival and overdose-related deaths overall? 
+* Some potential *limitations* include : Dataset does not specify  what 'other' drugs were; potential underestimation of death count among disadvatnaged populations; and a farily limited number of variables included.  

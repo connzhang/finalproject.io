@@ -72,8 +72,8 @@ drug_death %>%
     plot.title = element_text(size = 14)
   ) +
   ggtitle("Number of deaths over time") +
-  xlab("year") +
-  ylab("Number of death each day")
+  xlab("Year") +
+  ylab("Number of deaths each day")
 ```
 
 ### Chart B
@@ -89,6 +89,8 @@ drug_death %>%
   ) +
   geom_point() +
   geom_line() +
+  ylab("Number of deaths")+
+  xlab("Age") +
   ggtitle("Age distribution of drug related deaths for different racial groups")
 ```
 

@@ -8,8 +8,9 @@ output:
 
 # Assessment of Drug-Related Deaths in Connecticut
 
+Drug Related Deaths is a significant public health issue and Connecticut is a state with statistically significant increase in drug overdose death rates fram 2016 to 2017. **Our motivation for this project is to analyze and report on Connecticut's local geogographic and demographic trends related to drug overdose deaths in recent years**. 
 
-Accidental drug-related deaths are an ongoing public health concern at a national level, with a significant increase in the state of Connecticut in particular. Opioid overdose deaths within this state have doubled over the past six years. The Connecticut Department of Health has attributed the increase to the recreational use of a combination of multiple drugs at one time. The motivation for this project is to analyze and report on Connecticut's local geogographic and demographic trends related to drug overdose deaths in recent years. 
+Accidental drug-related deaths are an ongoing public health concern at a national level, with a significant increase in the state of Connecticut in particular. Opioid overdose deaths within this state have doubled over the past six years. The Connecticut Department of Health has attributed the increase to the recreational use of a combination of multiple drugs at one time. 
 
 The analysis, conclusions, and suggestions for intervention from this asessement are theoretically crafted to further supplement Connecticut Department of Public Health's work to understand and combat the rise in drug-related deaths in the State. 
 
@@ -29,6 +30,6 @@ For this assessment, the [Accidental Drug Related Deaths 2012-2018](https://cata
 
 **Project Report**: Report describing the findings from the data analysis and visualizations
 
-**Screencast**: The screencast added [here]() provides a brief overview of our website
+**Screencast**: The screencast added [here](https://www.youtube.com/watch?v=RGKFtQ95X6w) provides a brief overview of our website
 
 **Contributers: Connie Zhang, Laura Lynch, Rachel Crowley, Ekta Chaudhary, Tianna Ouyang**

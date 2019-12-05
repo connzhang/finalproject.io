@@ -12,7 +12,7 @@ navbar:
     - icon: fa-github fa-lg
       href: https://github.com/connzhang/finalproject.io
     - icon: fa-video-camera
-      href: https://www.youtube.com     
+      href: https://www.youtube.com/watch?v=RGKFtQ95X6w    
       
 output:
   html_document:
